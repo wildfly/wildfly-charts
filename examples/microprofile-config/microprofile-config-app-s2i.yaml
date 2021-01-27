@@ -1,0 +1,18 @@
+build:
+  mode: s2i
+  uri: https://github.com/wildfly/quickstart.git
+  ref: 22.0.1.Final
+  s2i:
+    galleonLayers: 'jaxrs-server,microprofile-platform'
+  env:
+  - name: ARTIFACT_DIR
+    value: microprofile-config/target
+  - name: MAVEN_ARGS_APPEND
+    value: -am -pl microprofile-config
+  - name: MAVEN_OPTS
+    value: '-XX:MetaspaceSize=251m -XX:MaxMetaspaceSize=256m'
+deploy:
+  replicas: 3
+  env:
+  - name: CONFIG_PROP
+    value: Hello from OpenShift
