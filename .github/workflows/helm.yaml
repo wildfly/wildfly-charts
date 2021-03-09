@@ -33,6 +33,6 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.1.0
         with:
-          chart_repo_url: http://docs.wildfly.org/wildfly-charts/
+          charts_repo_url: http://docs.wildfly.org/wildfly-charts/
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
