@@ -8,6 +8,8 @@ build:
   s2i:
     builderImage: quay.io/wildfly/wildfly-centos7
     runtimeImage: quay.io/wildfly/wildfly-runtime-centos7
+  output:
+    kind: "ImageStreamTag"
   triggers: {}
 deploy:
   enabled: true
