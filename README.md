@@ -5,19 +5,16 @@
   <a href="https://wildfly.org/"><img src="https://design.jboss.org/wildfly/logo/final/wildfly_logo.svg" alt="WildFly logo" title="WildFly" height="90"/></a>
 </p>
 
-# Install Helm Repository
+# Install Helm Repository for WildFly Charts
 
-The `wildfly` Chart can be installed from [https://wildfly.github.io/wildfly-charts/](https://wildfly.github.io/wildfly-charts/)
+The `wildfly` Chart can be installed from the [https://docs.wildfly.org/wildfly-charts/](https://docs.wildfly.org/wildfly-charts/) repository
 
 ```
-$ helm repo add wildfly https://wildfly.github.io/wildfly-charts/
+$ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
 "wildfly" has been added to your repositories
 $ helm search repo wildfly
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-wildfly/wildfly         1.0.0           22.0            A Helm chart to build and deploy WildFly applic...
+wildfly/wildfly         1.0.0           22.0            Build and Deploy WildFly applications on OpenShift
 ````
 
-# Install Helm Chart
-This will build an application image from a Git repository.
-
-A complete documentation of the `widlfly` Chart is available in [charts/wildfly/](./charts/wildfly/README.md).
+A complete documentation of the `wildfly` Chart is available in [charts/wildfly/](./charts/wildfly/README.md).
