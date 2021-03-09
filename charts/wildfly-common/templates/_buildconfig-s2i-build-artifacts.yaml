@@ -2,13 +2,13 @@
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: {{ include "wildfly-common.appBuilderImage" . }}
+  name: {{ include "wildfly-common.appBuilderImageName" . }}
   labels: {}
 spec:
   output:
     to:
       kind: ImageStreamTag
-      name: {{ include "wildfly-common.appBuilderImage" . }}:latest
+      name: {{ include "wildfly-common.appBuilderImage" . }}
   runPolicy: Serial
   source:
     git:

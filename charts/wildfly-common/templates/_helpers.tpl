@@ -15,24 +15,31 @@ Expand the name of the chart.
 {{- end }}
 
 {{/*
-wildfly-common.appImage is the name of the application image that is built/deployed
+wildfly-common.appImageName is the name of the application image that is built/deployed
 */}}
-{{- define "wildfly-common.appImage" -}}
+{{- define "wildfly-common.appImageName" -}}
 {{ default (include "wildfly-common.appName" .) .Values.image.name }}
 {{- end -}}
 
 {{/*
-wildfly-common.appImageStreamTag is image stream of of the application image that is built/deployed
+wildfly-common.appImage is the name:tag of the application image of of the application image that is built/deployed
 */}}
-{{- define "wildfly-common.appImageStreamTag" -}}
-{{ include "wildfly-common.appImage" . }}:{{ .Values.image.tag}}
+{{- define "wildfly-common.appImage" -}}
+{{ include "wildfly-common.appImageName" . }}:{{ .Values.image.tag}}
 {{- end -}}
 
 {{/*
-wildfly.appBuilderImage corresponds to the imagestram for the application Builder image
+wildfly.appBuilderImageName corresponds to the name of the application Builder image
+*/}}
+{{- define "wildfly-common.appBuilderImageName" -}}
+{{ include "wildfly-common.appImageName" . }}-build-artifacts
+{{- end }}
+
+{{/*
+wildfly.appBuilderImage is the name:tag of the application Builder image
 */}}
 {{- define "wildfly-common.appBuilderImage" -}}
-{{ include "wildfly-common.appImage" . }}-build-artifacts
+{{ include "wildfly-common.appBuilderImageName" . }}:{{ .Values.image.tag}}
 {{- end }}
 
 {{/*
@@ -99,6 +106,20 @@ pullSecret:
   name: {{ .Values.build.pullSecret }}
 {{ else }}
 {{ fail (printf "Secret '%s' to pull images does not exist." .Values.build.pullSecret) }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Image push secret to push the application image
+*/}}
+{{- define "wildfly-common.buildconfig.pushSecret" -}}
+{{- if and .Values.build.output.pushSecret (eq .Values.build.output.kind "DockerImage") -}}
+{{- if lookup "v1" "Secret" .Release.Namespace .Values.build.output.pushSecret -}}
+pushSecret:
+  name: {{ .Values.build.output.pushSecret }}
+{{- else }}
+{{- fail (printf "Secret '%s' to push the application image does not exist." .Values.build.output.pushSecret) }}
 {{- end }}
 {{- end }}
 {{- end }}

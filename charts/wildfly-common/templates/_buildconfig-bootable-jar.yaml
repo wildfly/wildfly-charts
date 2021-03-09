@@ -6,9 +6,10 @@ metadata:
   labels: {}
 spec:
   output:
+    {{- include "wildfly-common.buildconfig.pushSecret" . | nindent 4 -}}
     to:
-      kind: ImageStreamTag
-      name: {{ include "wildfly-common.appImageStreamTag" . }}
+      kind: {{ .Values.build.output.kind }}
+      name: {{ include "wildfly-common.appImage" . }}
   source:
     type: Git
     git:
