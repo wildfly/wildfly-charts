@@ -1,4 +1,3 @@
-# wildfly-charts - Helm Charts for WildFly
 
 <p align="center">
   <a href="https://helm.sh"><img src="https://helm.sh/img/helm.svg" alt="Helm logo" title="WildFly" height="90"/></a>&nbsp;
