@@ -7,10 +7,10 @@
 
 # Install Helm Repository
 
-The `wildfly` Chart can be installed from [https://wildfly.github.io/wildfly-charts/](https://wildfly.github.io/wildfly-charts/)
+The `wildfly` Chart can be installed from [https://docs.wildfly.org/wildfly-charts/](https://docs.wildfly.org/wildfly-charts/)
 
 ```
-$ helm repo add wildfly https://wildfly.github.io/wildfly-charts/
+$ helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
 "wildfly" has been added to your repositories
 $ helm search repo wildfly
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
