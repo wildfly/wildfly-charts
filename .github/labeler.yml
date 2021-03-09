@@ -1,0 +1,15 @@
+repo:
+  - ./*
+examples:
+  - examples/**/*
+charts:
+  - charts/**/*
+wildfly:
+  - charts/wildfly/**/*
+wildfly-common:
+  - charts/wildfly-common/**/*
+documentation:
+  - ./README.md
+  - charts/**/README.md
+  - charts/**/values.schema.json
+ 
