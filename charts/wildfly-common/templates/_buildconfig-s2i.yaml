@@ -6,15 +6,16 @@ metadata:
   labels: {}
 spec:
   output:
+    {{- include "wildfly-common.buildconfig.pushSecret" . | nindent 4 -}}
     to:
-      kind: ImageStreamTag
-      name: {{ include "wildfly-common.appImageStreamTag" . }}
+      kind: {{ .Values.build.output.kind }}
+      name: {{ include "wildfly-common.appImage" . }}
   source:
     type: Docker
     images:
     - from:
         kind: ImageStreamTag
-        name: {{ include "wildfly-common.appBuilderImage" . }}:latest
+        name: {{ include "wildfly-common.appBuilderImage" . }}
       paths:
       - destinationDir: .
         sourcePath: /s2i-output/server/
@@ -27,7 +28,7 @@ spec:
   - imageChange:
       from:
         kind: ImageStreamTag
-        name: {{ include "wildfly-common.appBuilderImage" . }}:latest
+        name: {{ include "wildfly-common.appBuilderImage" . }}
     type: ImageChange
   - type: ConfigChange
 {{ end }}

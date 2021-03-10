@@ -1,25 +1,29 @@
-{{- define "wildfly-common.deploymentconfig.tpl" -}}
-kind: DeploymentConfig
-apiVersion: apps.openshift.io/v1
+{{- define "wildfly-common.deployment.tpl" -}}
+kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: {{ include "wildfly-common.appName" . }}
   labels: {}
+  {{- if and .Values.build.enabled (eq .Values.build.output.kind "ImageStreamTag") }}
+  annotations:
+    image.openshift.io/triggers: |-
+      [
+        {
+          "from":{
+            "kind":"ImageStreamTag",
+            "name":"{{ include "wildfly-common.appImage" . }}"
+          },
+          "fieldPath":"spec.template.spec.containers[0].image"
+        }
+      ]
+  {{- end }}
 spec:
   strategy:
     type: Recreate
-  triggers:
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-          - {{ include "wildfly-common.appName" . }}
-        from:
-          kind: ImageStreamTag
-          name: {{ include "wildfly-common.appImageStreamTag" . }}
-    - type: ConfigChange
   replicas: {{ .Values.deploy.replicas }}
   selector:
-    {{- include "wildfly-common.selectorLabels" . | nindent 4 }}
+    matchLabels:
+      {{- include "wildfly-common.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       name: {{ include "wildfly-common.appName" . }}
@@ -31,7 +35,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ include "wildfly-common.appName" . }}
-          image: {{ include "wildfly-common.appImageStreamTag" . }}
+          image: {{ include "wildfly-common.appImage" . }}
           imagePullPolicy: Always
           ports:
           - name: jolokia
@@ -91,6 +95,6 @@ spec:
       {{- end }}
 {{ end }}
 
-{{- define "wildfly-common.deploymentconfig" -}}
-{{- include "wildfly-common.util.merge" (append . "wildfly-common.deploymentconfig.tpl") -}}
+{{- define "wildfly-common.deployment" -}}
+{{- include "wildfly-common.util.merge" (append . "wildfly-common.deployment.tpl") -}}
 {{- end -}}

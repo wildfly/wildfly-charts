@@ -12,7 +12,7 @@ build:
   - name: MAVEN_OPTS
     value: '-XX:MetaspaceSize=251m -XX:MaxMetaspaceSize=256m'
 deploy:
-  replicas: 3
+  replicas: 1
   env:
   - name: CONFIG_PROP
     value: Hello from OpenShift
