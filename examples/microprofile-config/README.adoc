@@ -29,7 +29,7 @@ In that case, the Helm Chart is configured with `build.mode=bootable-jar`.
 
 [source,options="nowrap"]
 ----
-$ helm install microprofile-config-app -f examples/microprofile-config/microprofile-config.yaml ./charts/wildfly
+$ helm install microprofile-config-app -f examples/microprofile-config/microprofile-config-app.yaml ./charts/wildfly
 ----
 
 ### Installation with WildFly S2I
@@ -49,7 +49,7 @@ The `microprofile-config-s2i.yaml` file contains the S2I configuration to build 
 
 [source,options="nowrap"]
 ----
-$ helm install microprofile-config-app -f examples/microprofile-config/microprofile-config-s2i.yaml ./charts/wildfly
+$ helm install microprofile-config-app -f examples/microprofile-config/microprofile-config-app-s2i.yaml ./charts/wildfly
 ----
 
 ## Deployment
