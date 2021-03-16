@@ -234,6 +234,16 @@
                             "type": ["string", "null"]
                         }
                     }
+                },
+                "bootableJar": {
+                  "description": "Configuration specific to Bootable Jar Build (applicable only if build mode is set to bootable-jar)",
+                  "type": ["object", "null"],
+                  "properties": {
+                      "builderImage": {
+                          "description": "The JDK Builder image",
+                          "type": ["string", "null"]
+                      }
+                  }
                 }
             }
         },

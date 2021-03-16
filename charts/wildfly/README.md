@@ -74,6 +74,9 @@ The configuration to build the application image is configured in a `build` sect
 | `build.s2i.builderImage` | WildFly S2I Builder image | [quay.io/wildfly/wildfly-centos7](https://quay.io/wildfly/wildfly-centos7) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i)  |
 | `build.s2i.runtimeImage` | WildFly S2I Runtime image | [quay.io/wildfly/wildfly-runtime-centos7](https://quay.io/wildfly/wildfly-runtime-centos7) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
 | `build.s2i.galleonLayers` | A comma separated list of layer names to compose a WildFly server | - |  [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
+| `build.bootableJar.builderImage` | JDK Builder image for Bootable Jar | [registry.access.redhat.com/ubi8/openjdk-11:latest](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?gti-tabs=unauthenticated) | - |
+
+
 
 ## Deploying the Application
 

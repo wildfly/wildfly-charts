@@ -1,7 +1,7 @@
 build:
   mode: s2i
   uri: https://github.com/wildfly/quickstart.git
-  ref: 22.0.1.Final
+  ref: 23.0.0.Final
   s2i:
     galleonLayers: 'jaxrs-server,microprofile-platform'
   env:
