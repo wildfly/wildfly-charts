@@ -29,7 +29,7 @@
                     "description": "Which mode to use to build the application",
                     "type": "string",
                     "enum": ["s2i", "bootable-jar"],
-                    "default": "bootable-jar"
+                    "default": "s2i"
                 },
                 "uri": {
                     "description": "URI of GitHub repository",
