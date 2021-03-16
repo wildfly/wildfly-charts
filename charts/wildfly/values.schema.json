@@ -43,6 +43,10 @@
                     "description": "Context directory within your Git repo to use as the root for the build",
                     "type": ["string", "null"]
                 },
+                "pullSecret": {
+                  "description": "Name of the Pull Secret",
+                  "type": ["string", "null"]
+                },
                 "output": {
                   "description": "Configuration for the built application image",
                   "type": "object",
