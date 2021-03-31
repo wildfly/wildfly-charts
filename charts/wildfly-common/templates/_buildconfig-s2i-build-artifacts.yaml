@@ -35,7 +35,7 @@ spec:
       {{- if .Values.build.s2i }}
       {{- if .Values.build.s2i.galleonLayers }}
       - name: GALLEON_PROVISION_LAYERS
-        value: {{ quote .Values.build.s2i.galleonLayers }}
+        value: {{ join "," .Values.build.s2i.galleonLayers | quote }}
       {{- end }}
       {{- end }}
       {{- if .Values.build.env }}
