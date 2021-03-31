@@ -3,7 +3,9 @@ build:
   uri: https://github.com/wildfly/quickstart.git
   ref: 23.0.0.Final
   s2i:
-    galleonLayers: 'jaxrs-server,microprofile-platform'
+    galleonLayers:
+    - jaxrs-server
+    - microprofile-platform
   env:
   - name: ARTIFACT_DIR
     value: microprofile-config/target

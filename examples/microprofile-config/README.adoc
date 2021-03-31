@@ -42,7 +42,9 @@ In that case, the Helm Chart is configured with `build.mode` set to `s2i` and th
 build:
   mode: s2i
   s2i:
-    galleonLayers: 'jaxrs-server,microprofile-platform'
+    galleonLayers:
+      - jaxrs-server
+      - microprofile-platform
 ---
 
 The `microprofile-config-s2i.yaml` file contains the S2I configuration to build the application.
