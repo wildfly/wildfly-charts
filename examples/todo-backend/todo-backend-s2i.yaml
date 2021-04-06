@@ -7,7 +7,6 @@ build:
     galleonLayers:
       - cloud-server
       - postgresql-datasource
-      - ejb-lite
   env:
     - name: ARTIFACT_DIR
       value: todo-backend/target
