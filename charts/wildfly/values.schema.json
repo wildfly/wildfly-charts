@@ -251,7 +251,6 @@
                               "type": "string"
                             }
                         }
-                      }
                     }
                 },
                 "bootableJar": {
