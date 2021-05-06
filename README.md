@@ -5,6 +5,8 @@
   <a href="https://wildfly.org/"><img src="https://design.jboss.org/wildfly/logo/final/wildfly_logo.svg" alt="WildFly logo" title="WildFly" height="90"/></a>
 </p>
 
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/wildfly)](https://artifacthub.io/packages/helm/wildfly/wildfly)
+
 # Install Helm Repository for WildFly Charts
 
 The `wildfly` Chart can be installed from the [https://docs.wildfly.org/wildfly-charts/](https://docs.wildfly.org/wildfly-charts/) repository
