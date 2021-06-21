@@ -2,7 +2,7 @@
 # quickstart on OpenShift with the Helm Chart for WildFly.
 build:
   uri: https://github.com/wildfly/quickstart.git
-  ref: 23.0.2.SP1
+  ref: 24.0.0.SP1
   mode: bootable-jar
   env:
     - name: ARTIFACT_DIR
