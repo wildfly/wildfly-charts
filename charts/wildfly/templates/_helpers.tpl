@@ -2,22 +2,15 @@
 wildfly.builderImage corresponds to the name of the WildFly Builder Image
 */}}
 {{- define "wildfly.builderImage" -}}
-{{ .Values.build.s2i.builderImage }}:{{ include "wildfly.version" . }}
+{{ .Values.build.s2i.builderImage }}
 {{- end }}
 
 {{/*
 wildfly.runtimeImage corresponds to the name of the WildFly Runtime Image
 */}}
 {{- define "wildfly.runtimeImage" -}}
-{{ .Values.build.s2i.runtimeImage }}:{{ include "wildfly.version" . }}
+{{ .Values.build.s2i.runtimeImage }}
 {{- end }}
-
-{{/*
-If wildfly.version is not defined, use by defaul the Chart's appVersion
-*/}}
-{{- define "wildfly.version" -}}
-{{- default .Chart.AppVersion .Values.build.s2i.version -}}
-{{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.
@@ -32,9 +25,6 @@ Common labels
 {{- define "wildfly.labels" -}}
 helm.sh/chart: {{ include "wildfly.chart" . }}
 {{ include "wildfly-common.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 

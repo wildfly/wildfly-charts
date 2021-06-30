@@ -8,11 +8,8 @@ spec:
   source:
     dockerfile: |-
       FROM {{ include "wildfly.runtimeImage" . }}
-      COPY /server $JBOSS_HOME
-      USER root
-      RUN chown -R jboss:root $JBOSS_HOME && chmod -R ug+rwX $JBOSS_HOME
-      USER jboss
-      CMD $JBOSS_HOME/bin/openshift-launch.sh
+      COPY --chown=jboss:root /server $JBOSS_HOME
+      RUN chmod -R ug+rwX $JBOSS_HOME
   strategy:
     dockerStrategy:
       from:

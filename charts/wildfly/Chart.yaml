@@ -2,11 +2,7 @@ apiVersion: v2
 name: wildfly
 description: Build and Deploy WildFly applications on OpenShift
 type: "application"
-version: 1.5.4
-
-# This is the version number of the application being deployed.
-# This maps to the WildFly S2I Images tag that is used for S2I build.
-appVersion: "26.0"
+version: 2.0.0
 
 kubeVersion: ">= 1.19.0"
 home: https://wildfly.org
@@ -23,5 +19,5 @@ annotations:
 
 dependencies:
 - name: wildfly-common
-  version: 1.4.1
+  version: 2.0.0
   repository: file://../wildfly-common

@@ -6,8 +6,8 @@ build:
   bootableJar:
     builderImage: registry.access.redhat.com/ubi8/openjdk-11:latest
   s2i:
-    builderImage: quay.io/wildfly/wildfly-centos7
-    runtimeImage: quay.io/wildfly/wildfly-runtime-centos7
+    builderImage: quay.io/wildfly/wildfly-s2i-jdk11:latest
+    runtimeImage: quay.io/wildfly/wildfly-runtime-jdk11:latest
   output:
     kind: "ImageStreamTag"
   triggers: {}
