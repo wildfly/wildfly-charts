@@ -7,7 +7,7 @@
 
 [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/wildfly)](https://artifacthub.io/packages/helm/wildfly/wildfly)
 
-# Install Helm Repository for WildFly Charts
+## Install Helm Repository for WildFly Charts
 
 The `wildfly` Chart can be installed from the [https://docs.wildfly.org/wildfly-charts/](https://docs.wildfly.org/wildfly-charts/) repository
 
@@ -19,4 +19,7 @@ NAME                    CHART VERSION   APP VERSION     DESCRIPTION
 wildfly/wildfly         1.0.0           22.0            Build and Deploy WildFly applications on OpenShift
 ````
 
-A complete documentation of the `wildfly` Chart is available in [charts/wildfly/](./charts/wildfly/README.md).
+## WildFly Charts docs
+
+* A complete documentation of the `wildfly` Chart is available in [charts/wildfly/](./charts/wildfly/README.md).
+* [Wiki](https://github.com/wildfly/wildfly-charts/wiki)
