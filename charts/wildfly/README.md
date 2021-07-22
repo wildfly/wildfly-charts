@@ -1,6 +1,6 @@
 # Helm Chart for WildFly
 
-A Helm chart for building and deploying a [Wildly](https://www.wildfly.org) application on OpenShift.
+A Helm chart for building and deploying a [WildFly](https://www.wildfly.org) application on OpenShift.
 
 # Overview
 
