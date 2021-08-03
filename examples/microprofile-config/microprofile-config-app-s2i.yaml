@@ -1,7 +1,7 @@
 build:
   mode: s2i
   uri: https://github.com/wildfly/quickstart.git
-  ref: 24.0.0.SP1
+  ref: 24.0.1.Final
   s2i:
     galleonLayers:
     - jaxrs-server
