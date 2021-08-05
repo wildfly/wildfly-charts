@@ -28,3 +28,10 @@ deploy:
     httpGet:
       path: /health/ready
       port: admin
+  startupProbe:
+    httpGet:
+      path: /health/live
+      port: admin
+    initialDelaySeconds: 5
+    failureThreshold: 36
+    periodSeconds: 5

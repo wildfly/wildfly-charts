@@ -507,7 +507,10 @@
                     "description": "Freeform livenessProbe configuration"
                 },
                 "readinessProbe": {
-                    "description": "Freeform livenessProbe configuration"
+                    "description": "Freeform readinessProbe configuration"
+                },
+                "startupProbe": {
+                    "description": "Freeform startupProbe configuration"
                 },
                 "volumeMounts": {
                   "description": "Freeform array of volumeMounts",

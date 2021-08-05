@@ -62,6 +62,10 @@ spec:
           readinessProbe:
             {{- tpl (toYaml .Values.deploy.readinessProbe) . | nindent 12 }}
           {{- end }}
+          {{- if .Values.deploy.startupProbe }}
+          startupProbe:
+            {{- tpl (toYaml .Values.deploy.startupProbe) . | nindent 12 }}
+          {{- end }}
           {{- if .Values.deploy.volumeMounts }}
           volumeMounts:
             {{- tpl (toYaml .Values.deploy.volumeMounts) . | nindent 12 }}
