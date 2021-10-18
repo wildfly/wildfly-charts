@@ -31,7 +31,7 @@ spec:
       - name: GALLEON_PROVISION_DEFAULT_FAT_SERVER
         value: "true"
       - name: CUSTOM_INSTALL_DIRECTORIES
-        value: extensions/*
+        value: extensions
       {{- if .Values.build.s2i }}
       {{- if .Values.build.s2i.galleonLayers }}
       - name: GALLEON_PROVISION_LAYERS
