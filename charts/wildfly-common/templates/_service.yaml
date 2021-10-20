@@ -31,6 +31,7 @@ spec:
   selector:
   {{- include "wildfly-common.selectorLabels" . | nindent 4 }}
   type: ClusterIP
+  clusterIP: None
   sessionAffinity: None
   publishNotReadyAddresses: true
 {{- end }}
