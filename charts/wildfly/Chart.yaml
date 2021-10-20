@@ -2,7 +2,7 @@ apiVersion: v2
 name: wildfly
 description: Build and Deploy WildFly applications on OpenShift
 type: "application"
-version: 1.5.0
+version: 1.5.1
 
 # This is the version number of the application being deployed.
 # This maps to the WildFly S2I Images tag that is used for S2I build.
@@ -16,5 +16,5 @@ icon: https://design.jboss.org/wildfly/logo/final/wildfly_logomark_256px.png
 
 dependencies:
 - name: wildfly-common
-  version: 1.4.0
+  version: 1.4.1
   repository: file://../wildfly-common
