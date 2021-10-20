@@ -1,6 +1,6 @@
 build:
   uri: https://github.com/wildfly/quickstart.git
-  ref: 24.0.1.Final
+  ref: 25.0.0.Final
   mode: bootable-jar
   env:
   - name: ARTIFACT_DIR
