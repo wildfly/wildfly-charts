@@ -14,6 +14,10 @@ maintainers:
     url: https://wildfly.org
 icon: https://design.jboss.org/wildfly/logo/final/wildfly_logomark_256px.png
 
+annotations:
+  charts.openshift.io/name: WildFly
+  charts.openshift.io/provider: WildFly
+
 dependencies:
 - name: wildfly-common
   version: 1.4.1
