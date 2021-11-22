@@ -8,6 +8,9 @@ version: 1.5.2
 # This maps to the WildFly S2I Images tag that is used for S2I build.
 appVersion: "25.0"
 
+kubeVersion: ">= 1.19.0"
+home: https://wildfly.org
+
 maintainers:
   - email: wildfly-dev@lists.jboss.org
     name: WildFly
