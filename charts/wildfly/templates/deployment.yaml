@@ -1,4 +1,4 @@
-{{- if .Values.deploy.enabled }}
+{{- if (and .Values.deploy.enabled (eq .Values.deploy.applicationType "Deployment" )) }}
 {{- include "wildfly-common.deployment" (list . "wildfly.deployment") -}}
 {{- end -}}
 
