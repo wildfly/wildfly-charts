@@ -274,6 +274,12 @@
                     "type": "boolean",
                     "default": true
                 },
+                "applicationType": {
+                  "type": "string",
+                  "description": "Type of application to deploy.",
+                  "enum": ["Deployment", "StatefulSet"],
+                  "default": "Deployment"
+                },
                 "replicas": {
                     "type": "integer",
                     "description": "Number of pod replicas to deploy"
