@@ -4,7 +4,7 @@
   <a href="https://wildfly.org/"><img src="https://design.jboss.org/wildfly/logo/final/wildfly_logo.svg" alt="WildFly logo" title="WildFly" height="90"/></a>
 </p>
 
-# Install Helm Repository for WildFly Charts
+# Install Helm Repository for WildFly Chart
 
 The `wildfly` Chart can be installed from [http://docs.wildfly.org/wildfly-charts/](http://docs.wildfly.org/wildfly-charts/)
 
@@ -14,8 +14,17 @@ $ helm repo add wildfly http://docs.wildfly.org/wildfly-charts/
 
 $ helm search repo wildfly
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-wildfly/wildfly         1.0.0           22.0            A Helm chart to build and deploy WildFly applic...
-````
+wildfly/wildfly         1.5.2           25.0            A Helm chart to build and deploy WildFly applic...
+```
+
+## Update the Helm Repository for WildFly
+
+The `wildfly` Helm chart uses the WildFly S2I images corresponding to its `appVersion`. To ensure that you are using the latest release from WildFly to build and deploy your application images, you need to update the `wildfly` chart by running the command:
+
+```
+$ helm repo update
+...Successfully got an update from the "wildfly" chart repository
+```
 
 # Install a Helm Release
 
