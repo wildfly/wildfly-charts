@@ -2,15 +2,12 @@
 # quickstart on OpenShift with the Helm Chart for WildFly.
 build:
   uri: https://github.com/wildfly/quickstart.git
-  ref: 25.0.0.Final
+  ref: 26.0.0.Final
+  contextDir: todo-backend
   mode: bootable-jar
   env:
-    - name: ARTIFACT_DIR
-      value: todo-backend/target
     - name: MAVEN_ARGS_APPEND
-      value: -am -pl todo-backend -P bootable-jar-openshift
-    - name: MAVEN_OPTS
-      value: '-XX:MetaspaceSize=96m -XX:MaxMetaspaceSize=256m'
+      value: -P bootable-jar-openshift
 deploy:
   replicas: 3
   env:
