@@ -6,6 +6,30 @@ entries:
       charts.openshift.io/provider: WildFly
     apiVersion: v2
     appVersion: "26.0"
+    created: "2022-01-11T10:57:46.183698094Z"
+    dependencies:
+    - name: wildfly-common
+      repository: file://../wildfly-common
+      version: 1.4.1
+    description: Build and Deploy WildFly applications on OpenShift
+    digest: 7bbf72232d2f3594c139fbec6c1976220e36be5da3b477c21b88247b890d5316
+    home: https://wildfly.org
+    icon: https://design.jboss.org/wildfly/logo/final/wildfly_logomark_256px.png
+    kubeVersion: '>= 1.19.0'
+    maintainers:
+    - email: wildfly-dev@lists.jboss.org
+      name: WildFly
+      url: https://wildfly.org
+    name: wildfly
+    type: application
+    urls:
+    - https://github.com/wildfly/wildfly-charts/releases/download/wildfly-1.5.4/wildfly-1.5.4.tgz
+    version: 1.5.4
+  - annotations:
+      charts.openshift.io/name: WildFly
+      charts.openshift.io/provider: WildFly
+    apiVersion: v2
+    appVersion: "26.0"
     created: "2022-01-11T08:59:04.901844201Z"
     dependencies:
     - name: wildfly-common
