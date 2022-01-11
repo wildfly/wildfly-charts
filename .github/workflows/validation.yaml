@@ -23,8 +23,4 @@ jobs:
 
             echo "Check Yaml Examples"
             shopt -s globstar
-            for f in examples/**/*.yaml; do # Whitespace-safe and recursive
-              echo -n "$f"
-              yq validate $f
-              echo "...✅"
-            done
+            yq eval-all 'true' examples/**/*.yaml > /dev/null

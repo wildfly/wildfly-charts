@@ -1,18 +1,12 @@
 build:
   mode: s2i
   uri: https://github.com/wildfly/quickstart.git
-  ref: 25.0.0.Final
+  ref: 26.0.0.Final
+  contextDir: microprofile-config
   s2i:
     galleonLayers:
     - jaxrs-server
     - microprofile-platform
-  env:
-  - name: ARTIFACT_DIR
-    value: microprofile-config/target
-  - name: MAVEN_ARGS_APPEND
-    value: -am -pl microprofile-config
-  - name: MAVEN_OPTS
-    value: '-XX:MetaspaceSize=251m -XX:MaxMetaspaceSize=256m'
 deploy:
   replicas: 1
   env:
