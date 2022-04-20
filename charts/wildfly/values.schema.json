@@ -221,10 +221,6 @@
                     "description": "Configuration specific to S2I Build (applicable only if build mode is set to s2i)",
                     "type": ["object", "null"],
                     "properties": {
-                        "version": {
-                            "description": "WildFly version. If not specified, the Helm's appVersion will be used instead.",
-                            "type": ["string", "null"]
-                        },
                         "builderImage": {
                             "description": "Name of WildFly Builder image",
                             "type": ["string", "null"]

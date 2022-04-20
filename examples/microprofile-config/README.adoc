@@ -7,7 +7,8 @@
 
 This example shows how to deploy an Eclipse MicroProfile application with WildFly on OpenShift.
 
-## Prerequisites
+[WARNING]
+This example is using the `wildfly-chart` 1.x. They are not compatible with the `wildfly-chart` 2.x
 
 ## Source Code
 

@@ -9,6 +9,9 @@
 The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with JAX-RS
 to manage a list of ToDo which are persisted in a database with JPA.
 
+[WARNING]
+This example is using the `wildfly-chart` 1.x. They are not compatible with the `wildfly-chart` 2.x
+
 This quickstart shows how to setup a local deployment of this backend as well as a deployment on OpenShift to connect
 to a PostgreSQL database also hosted on OpenShift.
 

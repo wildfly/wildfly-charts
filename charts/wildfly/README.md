@@ -12,6 +12,16 @@ The input of the `deploy` step is an `ImageStreamTag` resource that contains the
 
 To be able to install a Helm release with that chart, you must be able to provide a valid application image.
 
+# Compatibility with WildFly S2I images
+
+The `2.x` Helm Chart for WildFly relies on the [new source-to-image (S2I) from WildFly](https://github.com/wildfly/wildfly-s2i/) that is available at [quay.io/wildfly/wildfly-s2i-jdk11](https://quay.io/repository/wildfly/wildfly-s2i-jdk11). It is not compatible with the legacy S2I image at [quay.io/wildfly/wildfly-centos7](https://quay.io/repository/wildfly/wildfly-centos7).
+
+You can continue to use the `1.x` Helm Chart for WildFly with the legacy S2I images by specifying a `version` when you install with `helm`. For example, to use the latest `1.x` release of the Helm Chart, you can use:
+
+```
+helm install my-legacy-app -f app.yaml wildfly/wildfly --version ^1.x
+```
+
 ## Build an Application Image from Source
 
 If the application image must be built from source, the minimal configuration is:
@@ -22,6 +32,22 @@ build:
 ```
 
 The `build` step will use OpenShift `BuildConfig` to build an application image from this Git repository.
+
+The application must be a Maven project that is configured to use the [`org.wildfly.plugins:wildfly-maven-plugin`](https://docs.wildfly.org/wildfly-maven-plugin/) to provision a WildFly server with the deployed application. The application is built during the S2I assembly by running:
+
+```
+mvn -e -Popenshift -DskipTests -Dcom.redhat.xpaas.repo.redhatga -Dfabric8.skip=true --batch-mode -Djava.net.preferIPv4Stack=true -s /tmp/artifacts/configuration/settings.xml -Dmaven.repo.local=/tmp/artifacts/m2  package
+```
+
+Any additional Maven arguments can be specified by adding the `MAVEN_ARGS_APPEND` environment variable in the `.build.env` field:
+
+```
+build:
+  env:
+    - name: MAVEN_ARGS_APPEND
+      value: "-P my-profile"
+```
+
 
 ## Pull an existing Application Image
 
@@ -98,9 +124,8 @@ The configuration to build the application image is configured in a `build` sect
 | `build.triggers.githubSecret`| Name of the secret containing the WebHookSecretKey for the GitHub Webhook | - | The secret must exist in the same namespace or the chart will fail to install - [OpenShift documentation](https://docs.openshift.com/container-platform/latest/cicd/builds/triggering-builds-build-hooks.html#builds-webhook-triggers_triggering-builds-build-hooks) |
 | `build.triggers.genericSecret`| Name of the secret containing the WebHookSecretKey for the Generic Webhook | - | The secret must exist in the same namespace or the chart will fail to install - [OpenShift documentation](https://docs.openshift.com/container-platform/latest/cicd/builds/triggering-builds-build-hooks.html#builds-webhook-triggers_triggering-builds-build-hooks) |
 | `build.s2i` | Configuration specific to building with WildFly S2I images | - | - |
-| `build.s2i.version` | Version of the WildFly S2I images. | Defaults to this chart `AppVersion` | - |
-| `build.s2i.builderImage` | WildFly S2I Builder image | [quay.io/wildfly/wildfly-centos7](https://quay.io/wildfly/wildfly-centos7) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i)  |
-| `build.s2i.runtimeImage` | WildFly S2I Runtime image | [quay.io/wildfly/wildfly-runtime-centos7](https://quay.io/wildfly/wildfly-runtime-centos7) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
+| `build.s2i.builderImage` | WildFly S2I Builder image | [quay.io/wildfly/wildfly-s2i-jdk11:latest](https://quay.io/repository/wildfly/wildfly-s2i-jdk11) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i)  |
+| `build.s2i.runtimeImage` | WildFly S2I Runtime image | [quay.io/wildfly/wildfly-runtime-jdk11:latest](https://quay.io/repository/wildfly/wildfly-runtime-jdk11) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
 | `build.s2i.galleonDir` | Directory relative to the root directory for the build that contains custom content for Galleon. | - | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) - since WildFly 23.0.2|
 | `build.s2i.featurePacks` | List of additional Galleon feature-packs identified by Maven coordinates (`<groupId>:<artifactId>:<version>`) | - | The value can be be either a `string` with a list of comma-separated Maven coordinate or an array where each item is the Maven coordinate of a feature pack - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) - since WildFly 23.0.2|
 | `build.s2i.galleonLayers` | A list of layer names to compose a WildFly server | - | The value can be be either a `string` with a list of comma-separated layers or an array where each item is a layer - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
