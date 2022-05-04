@@ -2,9 +2,9 @@ apiVersion: v2
 name: wildfly
 description: Build and Deploy WildFly applications on OpenShift
 type: "application"
-version: 2.0.0
+version: 2.0.1
 
-kubeVersion: ">= 1.19.0"
+kubeVersion: ">= 1.19.0-0"
 home: https://wildfly.org
 
 maintainers:
