@@ -4,9 +4,11 @@ build:
   ref: 26.0.0.Final
   contextDir: microprofile-config
   s2i:
+    featurePacks:
+      - org.wildfly:wildfly-galleon-pack:26.1.1.Final
     galleonLayers:
-    - jaxrs-server
-    - microprofile-platform
+      - jaxrs-server
+      - microprofile-platform
 deploy:
   replicas: 1
   env:

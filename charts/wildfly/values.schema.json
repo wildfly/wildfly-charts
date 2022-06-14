@@ -230,7 +230,7 @@
                             "type": ["string", "null"]
                         },
                         "featurePacks": {
-                          "description": "List of additional Galleon feature-packs identified by Maven coordinates (`<groupId>:<artifactId>:<version>`)",
+                          "description": "List of Galleon feature-packs identified by Maven coordinates (`<groupId>:<artifactId>:<version>`). Deprecated, the recommended way to provision WildFly is to use the wildfly-maven-plugin in the application pom.xml",
                           "type": ["string", "array", "null"],
                           "items": {
                             "type": "string"
@@ -241,7 +241,7 @@
                           "type": ["string", "null"]
                         },
                         "galleonLayers": {
-                            "description": "List of Galleon Layers to provision",
+                            "description": "List of Galleon Layers to provision. If galleonLayers are configured, the featurePacks that provides the layers must be specified (including WildFly feature pack). Deprecated, the recommended way to provision WildFly is to use the wildfly-maven-plugin in the application pom.xml",
                             "type": ["string", "array", "null"],
                             "items": {
                               "type": "string"

@@ -127,11 +127,17 @@ The configuration to build the application image is configured in a `build` sect
 | `build.s2i.builderImage` | WildFly S2I Builder image | [quay.io/wildfly/wildfly-s2i-jdk11:latest](https://quay.io/repository/wildfly/wildfly-s2i-jdk11) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i)  |
 | `build.s2i.runtimeImage` | WildFly S2I Runtime image | [quay.io/wildfly/wildfly-runtime-jdk11:latest](https://quay.io/repository/wildfly/wildfly-runtime-jdk11) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
 | `build.s2i.galleonDir` | Directory relative to the root directory for the build that contains custom content for Galleon. | - | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) - since WildFly 23.0.2|
-| `build.s2i.featurePacks` | List of additional Galleon feature-packs identified by Maven coordinates (`<groupId>:<artifactId>:<version>`) | - | The value can be be either a `string` with a list of comma-separated Maven coordinate or an array where each item is the Maven coordinate of a feature pack - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) - since WildFly 23.0.2|
-| `build.s2i.galleonLayers` | A list of layer names to compose a WildFly server | - | The value can be be either a `string` with a list of comma-separated layers or an array where each item is a layer - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
+| `build.s2i.featurePacks` | *Deprecated* List of Galleon feature-packs identified by Maven coordinates (`<groupId>:<artifactId>:<version>`) | - | The value can be be either a `string` with a list of comma-separated Maven coordinate or an array where each item is the Maven coordinate of a feature pack - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) - since WildFly 23.0.2|
+| `build.s2i.galleonLayers` | *Deprecated*   A list of layer names to compose a WildFly server. If specified, `build.s2i.featurePacks` must also be specified. | - | The value can be be either a `string` with a list of comma-separated layers or an array where each item is a layer - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
 | `build.bootableJar.builderImage` | JDK Builder image for Bootable Jar | [registry.access.redhat.com/ubi8/openjdk-11:latest](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?gti-tabs=unauthenticated) | - |
 
+### Provisioning WildFly With S2I.
 
+The recommended way to provision the WildFly server is to use the `wildfly-maven-plugin` from the application `pom.xml`.
+
+The `build.s2i.featurePacks` and `build.s2i.galleonLayers` fields have been deprecated as they are no longer necessary with this recommendation.
+For backwards compatibility, the WildFly S2I Builder image still supports these fields to delegate to the provisioning of the server to the `wildfly-maven-plugin` if it is not configured in the application `pom.xml`.
+However if `build.s2i.galleonLayers` is set, `build.s2i.featurePacks` _must_ be specified (including WildFly own feature pack, e.g. `org.wildfly:wildfly-galleon-pack:26.1.1.Final`).
 
 ## Deploying the Application
 

@@ -6,6 +6,8 @@ build:
   contextDir: todo-backend
   mode: s2i
   s2i:
+    featurePacks:
+      - org.wildfly:wildfly-galleon-pack:26.1.1.Final
     galleonLayers:
       - cloud-server
       - postgresql-datasource
