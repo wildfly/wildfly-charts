@@ -4,11 +4,18 @@ build:
   ref: 26.0.0.Final
   contextDir: microprofile-config
   s2i:
+    featurePacks:
+      - org.wildfly:wildfly-galleon-pack:26.1.1.Final
     galleonLayers:
-    - jaxrs-server
-    - microprofile-platform
+      - jaxrs-server
+      - microprofile-platform
 deploy:
   replicas: 1
   env:
-  - name: CONFIG_PROP
-    value: Hello from OpenShift
+    - name: CONFIG_PROP
+      value: Hello from OpenShift
+  annotations:
+    a8r.io/owner: wildfly.org
+    a8r.io/description: >-
+      This application demonstrates how to use MicroProfile Config to inject
+      configuration from OpenShift in the application.

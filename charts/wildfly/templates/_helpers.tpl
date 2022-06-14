@@ -32,4 +32,13 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 metadata:
   labels:
   {{- include "wildfly.labels" . | nindent 4 }}
+{{- end }}
+
+{{- define "wildfly.deployment.labels" -}}
+metadata:
+  labels:
+  {{- include "wildfly.labels" . | nindent 4 }}
+  {{- if .Values.deploy.labels }}
+  {{- tpl (toYaml .Values.deploy.labels) . | nindent 4 }}
+  {{- end -}}
 {{- end -}}

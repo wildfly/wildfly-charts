@@ -3,8 +3,8 @@
 {{- end -}}
 
 {{ define "wildfly.deployment" }}
-{{- include "wildfly.metadata.labels" . }}
+{{- include "wildfly.deployment.labels" . }}
 spec:
   template:
-    {{- include "wildfly.metadata.labels" . | nindent 4 }}
+    {{- include "wildfly.deployment.labels" . | nindent 4 }}
 {{- end -}}
