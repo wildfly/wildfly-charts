@@ -488,6 +488,10 @@
                             "default": true,
                             "type": "boolean"
                         },
+                        "host": {
+                          "description": "alias/DNS that points to the service. If not specified a route name will typically be automatically chosen",
+                          "type": "string"
+                        },
                         "tls": {
                           "description": "TLS Configuration for the Route",
                           "type": "object",
