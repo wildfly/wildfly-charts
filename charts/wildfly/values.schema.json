@@ -265,6 +265,13 @@
             "description": "Configuration to deploy the application",
             "type": "object",
             "properties": {
+              "annotations": {
+                "type": "object",
+                "description": "Annotations that are applied to the deployed application and its pods",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
                 "enabled": {
                     "description": "Enable/Disable deploying the application image",
                     "type": "boolean",
@@ -273,6 +280,13 @@
                 "replicas": {
                     "type": "integer",
                     "description": "Number of pod replicas to deploy"
+                },
+                "labels": {
+                  "type": "object",
+                  "description": "Labels that are applied to the deployed application and its pods",
+                  "additionalProperties": {
+                    "type":"string"
+                  }
                 },
                 "resources": {
                     "description": "Freeform resources requirements to deploy the application image"
