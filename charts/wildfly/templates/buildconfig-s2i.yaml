@@ -13,6 +13,6 @@ spec:
   strategy:
     dockerStrategy:
       from:
-        kind: DockerImage
+        kind: {{ .Values.build.s2i.kind }}
         name: {{ include "wildfly.runtimeImage" .}}
 {{- end -}}

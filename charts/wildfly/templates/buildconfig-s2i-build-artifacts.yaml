@@ -8,6 +8,6 @@ spec:
   strategy:
     sourceStrategy:
       from:
-        kind: DockerImage
+        kind: {{ .Values.build.s2i.kind }}
         name: {{ include "wildfly.builderImage" . }}
 {{- end -}}

@@ -221,6 +221,12 @@
                     "description": "Configuration specific to S2I Build (applicable only if build mode is set to s2i)",
                     "type": ["object", "null"],
                     "properties": {
+                        "kind": {
+                          "description": "Determines the type of images for S2I Builder and Runtime images",
+                          "type": "string",
+                          "enum": ["ImageStreamTag", "DockerImage", "ImageStreamImage"],
+                          "default": "DockerImage"
+                        },
                         "builderImage": {
                             "description": "Name of WildFly Builder image",
                             "type": ["string", "null"]
