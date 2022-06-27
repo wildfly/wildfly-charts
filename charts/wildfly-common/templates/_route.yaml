@@ -7,6 +7,9 @@ metadata:
   annotations:
     openshift.io/host.generated: 'true'
 spec:
+  {{- if .Values.deploy.route.host }}
+  host: {{ .Values.deploy.route.host }}
+  {{- end }}
   to:
     kind: Service
     name: {{ include "wildfly-common.appName" . }}
