@@ -497,7 +497,7 @@
                           "type": "object",
                           "properties": {
                             "enabled" : {
-                              "description": "Determines if the Route should be TLS-encrypted",
+                              "description": "Determines if the Route should be TLS-encrypted. If deploy.tls.enabled is true, the route will use the secure service to acess to the deployment",
                               "default": true,
                               "type": "boolean"
                             },
@@ -516,6 +516,17 @@
                           }
                         }
                     }
+                },
+                "tls": {
+                  "description": "TLS Configuration",
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "description": "Enable the creation of a secure service to access the application.",
+                      "default": false,
+                      "type": "boolean"
+                    }
+                  }
                 },
                 "livenessProbe": {
                     "description": "Freeform livenessProbe configuration"

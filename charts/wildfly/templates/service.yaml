@@ -2,4 +2,9 @@
 {{- include "wildfly-common.service.http" (list . "wildfly.metadata.labels") }}
 ---
 {{ include "wildfly-common.service.ping" (list . "wildfly.metadata.labels") }}
+---
+{{- if .Values.deploy.tls.enabled }}
+{{- include "wildfly-common.service.https" (list . "wildfly.metadata.labels") }}
+{{- end }}
+---
 {{- end -}}

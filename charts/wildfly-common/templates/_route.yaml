@@ -12,7 +12,11 @@ spec:
   {{- end }}
   to:
     kind: Service
+    {{- if .Values.deploy.tls.enabled }}
+    name: {{ include "wildfly-common.appName" . }}-secure
+    {{- else }}
     name: {{ include "wildfly-common.appName" . }}
+    {{- end }}
     weight: 100
   {{- if .Values.deploy.route.tls.enabled }}
   tls:
