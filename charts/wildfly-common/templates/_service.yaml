@@ -14,6 +14,22 @@ spec:
   sessionAffinity: None
 {{- end -}}
 
+{{- define "wildfly-common.service.https.tpl" -}}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "wildfly-common.appName" . }}-secure
+  labels: {}
+spec:
+  ports:
+    - port: 8443
+      targetPort: 8443
+  selector:
+  {{- include "wildfly-common.selectorLabels" . | nindent 4 }}
+  type: ClusterIP
+  sessionAffinity: None
+{{- end -}}
+
 {{- define "wildfly-common.service.ping.tpl" -}}
 kind: Service
 apiVersion: v1
@@ -39,6 +55,10 @@ spec:
 
 {{- define "wildfly-common.service.http" -}}
 {{- include "wildfly-common.util.merge" (append . "wildfly-common.service.http.tpl") -}}
+{{- end -}}
+
+{{- define "wildfly-common.service.https" -}}
+{{- include "wildfly-common.util.merge" (append . "wildfly-common.service.https.tpl") -}}
 {{- end -}}
 
 {{- define "wildfly-common.service.ping" -}}

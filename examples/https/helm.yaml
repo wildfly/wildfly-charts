@@ -1,0 +1,34 @@
+build:
+  uri: https://github.com/wildfly/quickstart.git
+  ref: 26.1.0.Final
+  contextDir: helloworld-rs
+  s2i:
+    featurePacks:
+      - org.wildfly:wildfly-galleon-pack:26.1.1.Final
+      - org.wildfly.cloud:wildfly-cloud-galleon-pack:1.1.1.Final
+    galleonLayers:
+      - jaxrs-server
+deploy:
+  tls:
+    enabled: true
+  route:
+    tls:
+      enabled: true
+      termination: passthrough
+  env:
+    - name: HTTPS_KEYSTORE
+      value: keystore.jks
+    - name: HTTPS_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: keystore-password
+          name: wildfly-app-secret
+    - name: HTTPS_KEYSTORE_DIR
+      value: /etc/wildfly-app-secret
+  volumes:
+    - name: wildfly-app-secret-volume
+      secret:
+        secretName: wildfly-app-secret
+  volumeMounts:
+    - name: wildfly-app-secret-volume
+      mountPath: /etc/wildfly-app-secret

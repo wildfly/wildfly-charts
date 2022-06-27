@@ -1,0 +1,231 @@
+# Install a HTTPS Application
+:toc:               left
+:icons:             font
+:idprefix:
+:idseparator:       -
+:keywords:          openshift,wildfly,https,helm
+
+This example shows how to deploy a WildFly application on OpenShift and expose it with HTTPS.
+
+## Source Code
+
+The source code for the backend is hosted at https://github.com/wildfly/quickstart/tree/main/helloworld-ws
+
+It is a simple MicroProfile application that uses JAX-RS to expose HTTP endpoints that displays text configured with MicroProfile Config.
+
+This Helm Chart will show how to deploy it on OpenShift with HTTPS configured.
+
+## Prerequisites
+
+In order to use HTTPS with this application, you need to create a keystore that contains the self-signed certificate and put it in a secret in OpenShift.
+
+### Generate a keystore
+
+You can use the Java `keytool` command to generate a keystore:
+
+[source,bash]
+----
+keytool -genkey -keyalg RSA -alias <alias_name> -keystore <keystore_filename.jks> -validity 360 -keysize 2048
+----
+
+For example, for this application , use the following command to generate a keystore:
+
+[source,bash]
+----
+keytool -genkey -keyalg RSA -alias eapdemo-selfsigned -keystore keystore.jks -validity 360 -keysize 2048
+----
+
+Note the `keystore password` that you are typing when prompted as we will need it later.
+
+### Create a secret for this keystore
+
+In order to use that keystore on OpenShift, we need to store it in a Secret. We will also store the `keystore password` in that secret in order to read from the keystore.
+
+Create a secret from the previously created keystore and its secret using the following command:
+
+[source,bash]
+----
+oc create secret generic <secret_name> \    
+  --from-file=<keystore_filename.jks> \
+  --from-literal=keystore-password=<the keystore password>
+----
+
+For example, for this application, use the following command to create a secret:
+
+[source,bash]
+----
+oc create secret generic wildfly-app-secret \
+  --from-file=keystore.jks \
+  --from-literal=keystore-password=mypasswordxyz
+----
+
+[NOTE]
+====
+I passed `mypasswordxyz` as the value of the keystore password as it is the password I typed when prompted by the `keytool` command. You will have to adjust that value to put your own password. 
+====
+
+## Installation
+
+To deploy the application on OpenShift, we use the `helm` tool.
+
+[source,bash]
+----
+helm install wildfly-app -f examples/https/helm.yaml ./charts/wildfly
+----
+
+The `helm.yaml` configures WildFly to enable HTTPS.
+The relevant part are:
+
+[source,yaml]
+----
+build:
+  s2i:
+    featurePacks:
+      - org.wildfly.cloud:wildfly-cloud-galleon-pack:1.0.1.Final
+----
+
+When we build the application image, we provision the 
+`org.wildfly.cloud:wildfly-cloud-galleon-pack` Galleon Pack that will adapt WildFly on the Cloud.
+In particular, it will allow to use a few environment variables to automatically configure HTTPS.
+The list of environment variables supported by the WildFly CLoud Galleon Pack is listed in its https://github.com/wildfly-extras/wildfly-cloud-galleon-pack/blob/main/doc/index.md[documentation].
+
+Let's specify these HTTPS environment variables when the application image is deployed:
+
+[source,yaml]
+----
+deploy:
+  env:
+    - name: HTTPS_KEYSTORE
+      value: keystore.jks
+    - name: HTTPS_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: keystore-password
+          name: wildfly-app-secret
+    - name: HTTPS_KEYSTORE_DIR
+      value: /etc/wildfly-app-secret
+----
+
+These environment variables must be specified:
+
+* `HTTPS_KEYSTORE` is the name of the keystore file (`keystore.jks``)
+* `HTTPS_PASSWORD` is the password to read data from the keystore. Its value is extracted from the `keystore-password` key in the `wildfly-app-secret` secret.
+* `HTTPS_KEYSTORE_DIR` is the directory that contains the keystore (`/etc/wildfly-app-secret`)
+
+We must also mount the `wildfly-app-secret` secret to make it available to the server in the `/etc/wildfly-app-secret` directory. To do so, we need to configure a `volume` and `volumeMount`:
+
+[source,yaml]
+----
+deploy
+  volumes:
+    - name: wildfly-app-secret-volume
+      secret:
+        secretName: wildfly-app-secret
+  volumeMounts:
+    - name: wildfly-app-secret-volume
+      mountPath: /etc/wildfly-app-secret
+----
+
+Finally, we need to configure the Route that OpenShift creates to expose the application to enable HTTPS.
+
+[source,yaml]
+----
+deploy:
+  tls:
+    enabled: true
+  route:
+    tls:
+      enabled: true
+      termination: passthrough
+----
+
+The field `deploy.route.tls.enabled` will enable using HTTPS to access the application outside OpenShift.
+The field `deploy.tls.enabled` will also use HTTPS inside the cluster.
+
+The field `deploy.reoute.tls.termination` is set to `passthrough` so that the destination pod is responsible for serving certificates for the traffic at the endpoint.
+
+## Deployment
+
+Once the chart is installed, let's wait for the application to be built and deployed:
+
+[source,options="nowrap"]
+----
+oc get deployment wildfly-app -w
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+wildfly-app   1/1     1            1           4m41s
+----
+
+## Use the application
+
+Once the application is deployed on OpenShift, it can be accessed from the route `wildfly-app`.
+Let's find the host that we can use to connect to this application:
+
+[source,options="nowrap"]
+----
+$ oc get route wildfly-app -o jsonpath="{.spec.host}"
+wildfly-app-jmesnil1-dev.apps.sandbox.x8i5.p1.openshiftapps.com
+----
+
+This value will be different for every installation of the application. We will store it in the `${ROUTE}` environment variable to access it:
+
+[source,options="nowrap"]
+----
+export ROUTE=$(oc get route wildfly-app -o jsonpath="{.spec.host}")
+echo $ROUTE
+----
+
+If we query this application with curl, this will fail:
+
+[source,options="nowrap"]
+----
+$ curl -L https://${ROUTE}/rest/json
+
+curl: (60) SSL certificate problem: self signed certificate
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+----
+
+As we have used a self-signed certificate, we need to configure curl to accept it with `-k`:
+
+[source,options="nowrap"]
+----
+$ curl -L -k https://${ROUTE}/rest/json
+{"result":"Hello World!"}
+----
+
+We can also access the application using HTTP and will be automatically redirect to its HTTPS endpoint
+
+[source,options="nowrap"]
+----
+$ curl -L -k http://${ROUTE}/rest/json
+{"result":"Hello World!"}
+----
+
+This can be configured with the `deploy.route.tls.insecureEdgeTerminationPolicy` field (which is set to `Redirect` by default). For example, if you want to disable HTTP access completely, you can configure the Helm Chart with
+
+[source,yaml]
+----
+deploy:
+  tls:
+    insecureEdgeTerminationPolicy: Disable
+----
+
+## Clean up
+
+The application can be deleted by running the command:
+
+[source,options="nowrap"]
+----
+helm delete wildfly-app
+----
+
+We will also delete the secret that is used to store the keystore:
+
+[source,options="nowrap"]
+----
+oc delete secret wildfly-app-secret
+----
+

@@ -54,6 +54,11 @@ spec:
           - name: ping
             containerPort: 8888
             protocol: TCP
+          {{- if .Values.deploy.tls.enabled }}
+          - name: https
+            containerPort: 8443
+            protocol: TCP
+          {{- end }}
           - name: admin
             containerPort: 9990
             protocol: TCP
