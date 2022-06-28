@@ -6,10 +6,11 @@ build:
   bootableJar:
     builderImage: registry.access.redhat.com/ubi8/openjdk-11:latest
   s2i:
+    kind: DockerImage
     builderImage: quay.io/wildfly/wildfly-s2i-jdk11:latest
     runtimeImage: quay.io/wildfly/wildfly-runtime-jdk11:latest
   output:
-    kind: "ImageStreamTag"
+    kind: ImageStreamTag
   triggers: {}
 deploy:
   enabled: true
