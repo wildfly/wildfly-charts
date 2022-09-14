@@ -87,8 +87,6 @@ spec:
             value: dns.DNS_PING
           - name: OPENSHIFT_DNS_PING_SERVICE_PORT
             value: '8888'
-          - name: AUTO_DEPLOY_EXPLODED
-            value: 'false'
           - name: ENABLE_GENERATE_DEFAULT_DATASOURCE
             value: 'false'
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
