@@ -62,31 +62,28 @@ build:
   enabled: false
 ```
 
-## Prerequisites
-Below are prerequisites that may apply to your use case.
+## Working With Private Image Registries
 
-### Pull Secret
-You will need to create a pull secret if you need to pull an image from an external registry that requires authentication. Use the following command as a reference to create your pull secret:
-```bash
-oc create secret docker-registry my-pull-secret --docker-server=$REGISTRY_URL --docker-username=$USERNAME --docker-password=$PASSWORD --docker-email=$EMAIL
-```
+If you are using private image registries to build, push or pull the application image, you need first to create secrets that will allow the container platform where the Helm Chart is deployed to authenticate against the private image registries.
 
-You can use this secret by passing `--set build.pullSecret=my-pull-secret` to `helm install`, or you can configure this in a values file:
+### Pulling the Builder and Runtime Images from a Private Image Registry
+
+This step applies if you build the image on OpenShift and need to pull the builder and runtime base images from an external private image registry.
+
+You must first create a secret that contains the credentials to pull the base image (as explained in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod)) and reference it from the `build.pullSecret` field:
+
 
 ```yaml
 build:
   pullSecret: my-pull-secret
 ```
 
-### Push Secret
+### Pushing the Application Image to a Private Image Registry
 
-You will need to create a push secret if you want to push your image to an external registry. Use the following command as a reference to create your push secret:
+This step applies if you build the image with the Helm chart and want to push it to an external image registry.
 
-```bash
-oc create secret docker-registry my-push-secret --docker-server=$SERVER_URL --docker-username=$USERNAME --docker-password=$PASSWORD --docker-email=$EMAIL
-```
-
-You can use this secret by passing `--set build.output.pushSecret=my-push-secret` and `--set build.output.kind=DockerImage`, or you can configure these in a values file:
+You must first create a secret that contains the credentials to push the application image (as explained in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod)) and reference it from the `build.output.pushSecret` field.
+You also need to set the `build.output.kind` field to `DockerImage`.
 
 ```yaml
 build:
@@ -95,16 +92,30 @@ build:
     pushSecret: my-push-secret
 ```
 
+### Pulling the Application Image from a Private Registry
+
+If the application image comes from a private registry that requires authentication, you must first create a secret that contains the credentials to pull the application image (as explained in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod)) and reference it from the `deploy.imagePullSecrets` field:
+
+```yaml
+image:
+  name: quay.io/my-private-group/my-private-image
+build:
+  enabled: false
+deploy:
+  imagePullSecrets:
+    - name: my-secret-quay-credentials
+```
+
 ## Application Image
 
-The configuration for the image that is built and deployed is configured in a `image` section.
+The configuration for the application image that is built and deployed is configured in a `image` section.
 
 | Value | Description | Default | Additional Information |
 | ----- | ----------- | ------- | ---------------------- |
-| `image.name` | Name of the image you want to build/deploy | Defaults to the Helm release name. | The chart will create/reference an [ImageStream](https://docs.openshift.com/container-platform/latest/openshift_images/image-streams-manage.html) based on this value. |
-| `image.tag` | Tag that you want to build/deploy | `latest` | The chart will create/reference an [ImageStreamTag](https://docs.openshift.com/container-platform/latest/openshift_images/image-streams-manage.html#images-using-imagestream-tags_image-streams-managing) based on the name provided |
+| `image.name` | Name of the image you want to build and/or deploy | Defaults to the Helm release name. | The chart will create/reference an `ImageStreamTag` or a `DockerImage` based on this value. |
+| `image.tag` | Tag that you want to build/deploy | `latest` | - |
 
-## Building the Application
+## Building the Application Image
 
 The configuration to build the application image is configured in a `build` section.
 
@@ -140,14 +151,15 @@ The `build.s2i.featurePacks` and `build.s2i.galleonLayers` fields have been depr
 For backwards compatibility, the WildFly S2I Builder image still supports these fields to delegate to the provisioning of the server to the `wildfly-maven-plugin` if it is not configured in the application `pom.xml`.
 However if `build.s2i.galleonLayers` is set, `build.s2i.featurePacks` _must_ be specified (including WildFly own feature pack, e.g. `org.wildfly:wildfly-galleon-pack:26.1.1.Final`).
 
-## Deploying the Application
+## Deploying the Application Image
 
-The configuration to build the application image is configured in a `deploy` section.
+The configuration to deploy the application image is configured in a `deploy` section.
 
 | Value | Description | Default | Additional Information |
 | ----- | ----------- | ------- | ---------------------- |
-| `deploy.annotations` | Map of `string` annotations that are applied to the deployment and its pod's `template` | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
 | `deploy.enabled` | Determines if deployment-related resources should be created. | `true` | Set this to `false` if you do not want to deploy an application image built by this chart. |
+| `deploy.imagePullSecrets` | Names of secrets to pull the application image from an private image registry | - | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod) |
+| `deploy.annotations` | Map of `string` annotations that are applied to the deployment and its pod's `template` | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
 | `deploy.replicas` | Number of pod replicas to deploy. | `1` | [OpenShift Documentation](https://docs.openshift.com/container-platform/latest/applications/deployments/what-deployments-are.html) | 
 | `deploy.route.enabled` | Determines if a `Route` should be created | `true` | Allows clients outside of OpenShift to access your application |
 | `deploy.route.host` | `host` is an alias/DNS that points to the service. Optional. If not specified a route name will typically be automatically chosen | - | [OpenShift Documentation](https://docs.openshift.com/container-platform/latest/networking/routes/route-configuration.html) |
