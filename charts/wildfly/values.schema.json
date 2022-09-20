@@ -584,6 +584,20 @@
                 "extraContainers": {
                   "description": "Freeform array of extra containers",
                   "type": [ "array", "null"]
+                },
+                "imagePullSecrets:": {
+                  "description": "ImagePullSecrets is a list of references to secrets in the same namespace to use for pulling the application image",
+                  "type": [ "array", "null"],
+                  "items": {
+                    "description": "Reference to a secret in the same namespace.",
+                    "required": ["name"],
+                    "properties": {
+                      "name": {
+                        "description": "Name of the referenced secret",
+                        "type": "string"
+                      }
+                    }
+                  }
                 }
             }
         }
