@@ -31,6 +31,13 @@ build:
   uri: <git repository URL of your application>
 ```
 
+If the source repository is private, you must have a source secret created in the same namespace where you are building the application which allows athenticating to the repository.  Provide the name of the secret in the build section as follows:
+
+```yaml
+build:
+  sourceSecret: <name of secret to login to your Git repository>
+```
+
 The `build` step will use OpenShift `BuildConfig` to build an application image from this Git repository.
 
 The application must be a Maven project that is configured to use the [`org.wildfly.plugins:wildfly-maven-plugin`](https://docs.wildfly.org/wildfly-maven-plugin/) to provision a WildFly server with the deployed application. The application is built during the S2I assembly by running:
@@ -141,6 +148,7 @@ If the application image has been built by another mechanism, you can skip the b
 | `build.s2i.galleonLayers` | *Deprecated* A list of layer names to compose a WildFly server. If specified, `build.s2i.featurePacks` must also be specified. | - | The value can be be either a `string` with a list of comma-separated layers or an array where each item is a layer - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
 | `build.s2i.kind` | Determines the type of images for S2I Builder and Runtime images (`DockerImage`, `ImageStreamTag` or `ImageStreamImage`) | `DockerImage` | (OKD Documentation](https://docs.okd.io/latest/cicd/builds/build-strategies.html#builds-strategy-s2i-build_build-strategies) |
 | `build.s2i.runtimeImage` | WildFly S2I Runtime image | [quay.io/wildfly/wildfly-runtime-jdk11:latest](https://quay.io/repository/wildfly/wildfly-runtime-jdk11) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
+| `build.sourceSecret`|Name of the secret containing the credentials to login to Git source reposiory | - | The secret must exist in the same namespace or the chart will fail to install - [OpenShift documentation](https://docs.okd.io/latest/cicd/builds/creating-build-inputs.html#builds-manually-add-source-clone-secrets_creating-build-inputs) |
 | `build.triggers.genericSecret`| Name of the secret containing the WebHookSecretKey for the Generic Webhook | - | The secret must exist in the same namespace or the chart will fail to install - [OpenShift documentation](https://docs.openshift.com/container-platform/latest/cicd/builds/triggering-builds-build-hooks.html#builds-webhook-triggers_triggering-builds-build-hooks) |
 | `build.triggers.githubSecret`| Name of the secret containing the WebHookSecretKey for the GitHub Webhook | - | The secret must exist in the same namespace or the chart will fail to install - [OpenShift documentation](https://docs.openshift.com/container-platform/latest/cicd/builds/triggering-builds-build-hooks.html#builds-webhook-triggers_triggering-builds-build-hooks) |
 | `build.uri` | Git URI that references your git repo | &lt;required&gt; | Be sure to specify this to build the application. |

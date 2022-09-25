@@ -43,6 +43,10 @@
                     "description": "Context directory within your Git repo to use as the root for the build",
                     "type": ["string", "null"]
                 },
+                "sourceSecret": {
+                  "description": "Name of the Secret to use when cloning Git source project",
+                  "type": ["string", "null"]
+                },
                 "pullSecret": {
                   "description": "Name of the Pull Secret",
                   "type": ["string", "null"]
