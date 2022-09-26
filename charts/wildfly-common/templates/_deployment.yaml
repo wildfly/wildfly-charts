@@ -40,10 +40,7 @@ spec:
       initContainers:
         {{- tpl (toYaml .Values.deploy.initContainers) . | nindent 8 }}
       {{- end }}
-      {{- if .Values.deploy.imagePullSecrets }}
-      imagePullSecrets:
-        {{- tpl (toYaml .Values.deploy.imagePullSecrets) . | nindent 8 }}
-      {{- end }}
+      {{- include "wildfly-common.deployment.imagePullSecrets" . | nindent 6 -}}
       containers:
         - name: {{ include "wildfly-common.appName" . }}
           image: {{ include "wildfly-common.appImage" . }}
