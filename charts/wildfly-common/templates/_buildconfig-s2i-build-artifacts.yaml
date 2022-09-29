@@ -17,10 +17,7 @@ spec:
     {{- if .Values.build.contextDir }}    
     contextDir: {{ .Values.build.contextDir }}
     {{- end }}
-    {{- if .Values.build.sourceSecret }}    
-    sourceSecret:
-      name: {{ .Values.build.sourceSecret }}
-    {{- end }}
+    {{- include "wildfly-common.buildconfig.sourceSecret" . | nindent 4 -}}
     {{- if .Values.build.images }}
     images:
       {{- tpl (toYaml .Values.build.images) . | nindent 6 }}
