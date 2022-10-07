@@ -29,8 +29,6 @@ spec:
       {{- include "wildfly-common.buildconfig.pullSecret" . | nindent 6 -}}
       from: {}
       env:
-      - name: GALLEON_PROVISION_DEFAULT_FAT_SERVER
-        value: "true"
       - name: CUSTOM_INSTALL_DIRECTORIES
         value: extensions
       {{- if .Values.build.s2i }}
