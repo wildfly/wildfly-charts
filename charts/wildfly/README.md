@@ -142,6 +142,7 @@ If the application image has been built by another mechanism, you can skip the b
 | `build.ref` | Git ref containing the application you want to build | `main` | - |
 | `build.resources` | Freeform `resources` items | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
 | `build.s2i` | Configuration specific to building with WildFly S2I images | - | - |
+| `build.s2i.buildApplicationImage` | Whether the application image is built. If `false` the Helm release will only create the builder image (and name it from the Helm release) | `true` | - |
 | `build.s2i.builderImage` | WildFly S2I Builder image | [quay.io/wildfly/wildfly-s2i-jdk11:latest](https://quay.io/repository/wildfly/wildfly-s2i-jdk11) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i)  |
 | `build.s2i.builderKind` | Determines the type of images for S2I Builder image (`DockerImage`, `ImageStreamTag` or `ImageStreamImage`) | the value of `build.s2i.kind` | (OKD Documentation](https://docs.okd.io/latest/cicd/|
 | `build.s2i.featurePacks` | *Deprecated* List of Galleon feature-packs identified by Maven coordinates (`<groupId>:<artifactId>:<version>`) | - | The value can be be either a `string` with a list of comma-separated Maven coordinate or an array where each item is the Maven coordinate of a feature pack - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) - since WildFly 23.0.2|

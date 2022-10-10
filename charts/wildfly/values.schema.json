@@ -231,6 +231,11 @@
                           "enum": ["ImageStreamTag", "DockerImage", "ImageStreamImage"],
                           "default": "DockerImage"
                         },
+                        "buildApplicationImage": {
+                          "description": "Determine if the application image must be built. If false, the Helm release will  build the first artifact image (with the name of the Helm release)",
+                          "type": "boolean",
+                          "default": true
+                        },
                         "builderImage": {
                             "description": "Name of WildFly Builder image",
                             "type": ["string", "null"]
