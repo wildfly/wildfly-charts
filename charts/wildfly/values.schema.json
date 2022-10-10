@@ -235,9 +235,19 @@
                             "description": "Name of WildFly Builder image",
                             "type": ["string", "null"]
                         },
+                        "builderKind": {
+                          "description": "Determines the type of images for S2I Builder image. If omitted, the value of the kind properties is used",
+                          "type":  ["string", "null"],
+                          "enum": ["ImageStreamTag", "DockerImage", "ImageStreamImage"]
+                        },
                         "runtimeImage": {
                             "description": "Name of WildFly Runtime image",
                             "type": ["string", "null"]
+                        },
+                        "runtimeKind": {
+                          "description": "Determines the type of images for S2I Runtime image. If omitted, the value of the kind properties is used",
+                          "type":  ["string", "null"],
+                          "enum": ["ImageStreamTag", "DockerImage", "ImageStreamImage"]
                         },
                         "featurePacks": {
                           "description": "List of Galleon feature-packs identified by Maven coordinates (`<groupId>:<artifactId>:<version>`). Deprecated, the recommended way to provision WildFly is to use the wildfly-maven-plugin in the application pom.xml",

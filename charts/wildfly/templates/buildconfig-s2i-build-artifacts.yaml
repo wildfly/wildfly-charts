@@ -8,6 +8,6 @@ spec:
   strategy:
     sourceStrategy:
       from:
-        kind: {{ .Values.build.s2i.kind }}
+        kind: {{ .Values.build.s2i.builderKind | default .Values.build.s2i.kind }}
         name: {{ include "wildfly.builderImage" . }}
 {{- end -}}
