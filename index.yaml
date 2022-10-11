@@ -5,6 +5,29 @@ entries:
       charts.openshift.io/name: WildFly
       charts.openshift.io/provider: WildFly
     apiVersion: v2
+    created: "2022-10-11T07:00:59.873325548Z"
+    dependencies:
+    - name: wildfly-common
+      repository: file://../wildfly-common
+      version: 2.1.0
+    description: Build and Deploy WildFly applications on OpenShift
+    digest: cc03d183f7f23306be5fc510599752ec3ef8400363414558b795a7eea8a33ea3
+    home: https://wildfly.org
+    icon: https://design.jboss.org/wildfly/logo/final/wildfly_logomark_256px.png
+    kubeVersion: '>= 1.19.0-0'
+    maintainers:
+    - email: wildfly-dev@lists.jboss.org
+      name: WildFly
+      url: https://wildfly.org
+    name: wildfly
+    type: application
+    urls:
+    - https://github.com/wildfly/wildfly-charts/releases/download/wildfly-2.3.0/wildfly-2.3.0.tgz
+    version: 2.3.0
+  - annotations:
+      charts.openshift.io/name: WildFly
+      charts.openshift.io/provider: WildFly
+    apiVersion: v2
     created: "2022-09-29T11:03:55.662312301Z"
     dependencies:
     - name: wildfly-common
@@ -386,6 +409,15 @@ entries:
     - https://github.com/wildfly/wildfly-charts/releases/download/wildfly-1.0.0/wildfly-1.0.0.tgz
     version: 1.0.0
   wildfly-common:
+  - apiVersion: v2
+    created: "2022-10-11T07:01:00.136172085Z"
+    description: A library chart for WildFly-based applications
+    digest: 97d67e34aa614d72d4685d80a7437c5230a6500bcfb8cf34b10cf61569a1325b
+    name: wildfly-common
+    type: library
+    urls:
+    - https://github.com/wildfly/wildfly-charts/releases/download/wildfly-common-2.1.0/wildfly-common-2.1.0.tgz
+    version: 2.1.0
   - apiVersion: v2
     created: "2022-09-29T11:03:55.955975596Z"
     description: A library chart for WildFly-based applications
