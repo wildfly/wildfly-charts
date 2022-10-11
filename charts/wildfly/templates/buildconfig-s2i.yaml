@@ -1,4 +1,4 @@
-{{- if and .Values.build.enabled (eq .Values.build.mode "s2i") }}
+{{- if (and .Values.build.enabled (and (eq .Values.build.mode "s2i") .Values.build.s2i.buildApplicationImage)) }}
 {{- include "wildfly-common.buildconfig-s2i" (list . "wildfly.buildconfig-s2i") -}}
 {{- end -}}
 

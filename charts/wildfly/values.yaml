@@ -9,6 +9,7 @@ build:
     kind: DockerImage
     builderImage: quay.io/wildfly/wildfly-s2i-jdk11:latest
     runtimeImage: quay.io/wildfly/wildfly-runtime-jdk11:latest
+    buildApplicationImage: true
   output:
     kind: ImageStreamTag
   triggers: {}

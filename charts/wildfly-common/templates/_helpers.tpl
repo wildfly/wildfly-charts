@@ -32,8 +32,12 @@ wildfly-common.appImage is the name:tag of the application image of of the appli
 wildfly.appBuilderImageName corresponds to the name of the application Builder image
 */}}
 {{- define "wildfly-common.appBuilderImageName" -}}
+{{- if .Values.build.s2i.buildApplicationImage -}}
 {{ include "wildfly-common.appImageName" . }}-build-artifacts
-{{- end }}
+{{- else -}}
+{{ include "wildfly-common.appImageName" . }}
+{{- end -}}
+{{- end -}}
 
 {{/*
 wildfly.appBuilderImage is the name:tag of the application Builder image
