@@ -2,7 +2,7 @@
 # quickstart on OpenShift with the Helm Chart for WildFly.
 build:
   uri: https://github.com/wildfly/quickstart.git
-  ref: 26.0.0.Final
+  ref: 27.0.0.Final
   contextDir: todo-backend
   mode: bootable-jar
   env:
@@ -16,21 +16,21 @@ deploy:
       valueFrom:
         secretKeyRef:
           key: database-name
-          name: todos-db
+          name: todo-backend-db
     - name: POSTGRESQL_USER
       valueFrom:
         secretKeyRef:
           key: database-user
-          name: todos-db
+          name: todo-backend-db
     - name: POSTGRESQL_PASSWORD
       valueFrom:
         secretKeyRef:
           key: database-password
-          name: todos-db
+          name: todo-backend-db
     - name: POSTGRESQL_DATASOURCE
       value: ToDos
     - name: POSTGRESQL_SERVICE_HOST
-      value: todos-db
+      value: todo-backend-db
     - name: POSTGRESQL_SERVICE_PORT
       value: "5432"
     # Env to avoid OOME
