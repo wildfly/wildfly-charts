@@ -4,11 +4,11 @@ build:
   enabled: true
   mode: s2i
   bootableJar:
-    builderImage: registry.access.redhat.com/ubi8/openjdk-11:latest
+    builderImage: registry.access.redhat.com/ubi8/openjdk-17:latest
   s2i:
     kind: DockerImage
-    builderImage: quay.io/wildfly/wildfly-s2i-jdk11:latest
-    runtimeImage: quay.io/wildfly/wildfly-runtime-jdk11:latest
+    builderImage: quay.io/wildfly/wildfly-s2i:latest
+    runtimeImage: quay.io/wildfly/wildfly-runtime:latest
     buildApplicationImage: true
   output:
     kind: ImageStreamTag
