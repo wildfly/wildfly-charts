@@ -1,6 +1,6 @@
 build:
   uri: https://github.com/wildfly/quickstart.git
-  ref: 26.0.0.Final
+  ref: 27.0.0.Final
   contextDir: microprofile-config
   mode: bootable-jar
   env:
