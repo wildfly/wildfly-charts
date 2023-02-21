@@ -17,6 +17,12 @@ metadata:
         }
       ]
   {{- end }}
+  {{- if and .Values.build.enabled .Values.build.uri }}
+    app.openshift.io/vcs-uri:  {{ quote .Values.build.uri }}
+  {{- end }}
+  {{- if and .Values.build.enabled .Values.build.ref }}
+    app.openshift.io/vcs-ref:  {{ quote .Values.build.ref }}
+  {{- end }}
   {{- if .Values.deploy.annotations }}
     {{- tpl (toYaml .Values.deploy.annotations) . | nindent 4 }}
   {{- end }}
