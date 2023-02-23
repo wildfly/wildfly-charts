@@ -63,7 +63,7 @@ If release name contains chart name it will be used as a full name.
 Selector labels
 */}}
 {{- define "wildfly-common.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "wildfly-common.name" . }}
+app.kubernetes.io/name: {{ .Release.Name }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
