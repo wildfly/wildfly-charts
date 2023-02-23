@@ -4,8 +4,8 @@ apiVersion: apps/v1
 metadata:
   name: {{ include "wildfly-common.appName" . }}
   labels: {}
-  {{- if and .Values.build.enabled (eq .Values.build.output.kind "ImageStreamTag") }}
   annotations:
+  {{- if and .Values.build.enabled (eq .Values.build.output.kind "ImageStreamTag") }}
     image.openshift.io/triggers: |-
       [
         {
@@ -16,6 +16,12 @@ metadata:
           "fieldPath":"spec.template.spec.containers[0].image"
         }
       ]
+  {{- end }}
+  {{- if and .Values.build.enabled .Values.build.uri }}
+    app.openshift.io/vcs-uri:  {{ quote .Values.build.uri }}
+  {{- end }}
+  {{- if and .Values.build.enabled .Values.build.ref }}
+    app.openshift.io/vcs-ref:  {{ quote .Values.build.ref }}
   {{- end }}
 spec:
   strategy:
