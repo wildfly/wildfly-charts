@@ -508,6 +508,16 @@ entries:
     version: 1.4.0
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-03-02T09:11:52.552972+01:00"
+    description: A library chart for WildFly-based applications
+    digest: 3cac10de0000ab60a64943f4772a3bb1ca3165fbf5efff9333f311799a0bc338
+    name: wildfly-common
+    type: library
+    urls:
+    - https://github.com/wildfly/wildfly-charts/releases/download/wildfly-common-1.3.2/wildfly-common-1.3.2.tgz
+    version: 1.3.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2021-10-21T12:57:36.326743726Z"
     description: A library chart for WildFly-based applications
     digest: 416429a261ba00052b3bef0492a35a84bdbe2202d178f48f981b0ee1f856db51
