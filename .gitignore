@@ -20,3 +20,6 @@
 # Ignore generated Chart files
 Chart.lock
 charts/*/charts
+
+# IntelliJ IDE
+.idea/
