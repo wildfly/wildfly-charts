@@ -1,4 +1,4 @@
-# Install a MicroProfile Application
+= Install a MicroProfile Application
 :toc:               left
 :icons:             font
 :idprefix:
@@ -10,7 +10,7 @@ This example shows how to deploy an Eclipse MicroProfile application with WildFl
 [WARNING]
 This example is using the `wildfly-chart` 1.x. They are not compatible with the `wildfly-chart` 2.x
 
-## Source Code
+== Source Code
 
 The source code for the backend is hosted at https://github.com/wildfly/quickstart/tree/master/microprofile-config
 
@@ -19,11 +19,11 @@ It is a simple MicroProfile application that uses JAX-RS to exposes HTTP endpoin
 When the application is deployed on OpenShift, it uses the `CONFIG_PROP` environment variable as the source of its config property.
 This environment variable is specified in the `deploy.env` section of the Helm Chart.
 
-## Installation
+== Installation
 
 The application can be built with Bootable Jar or using WildFly S2I images.
 
-### Installation with Bootable Jar
+=== Installation with Bootable Jar
 
 The application can be compiled as a Bootable Jar.
 In that case, the Helm Chart is configured with `build.mode=bootable-jar`.
@@ -33,20 +33,20 @@ In that case, the Helm Chart is configured with `build.mode=bootable-jar`.
 $ helm install microprofile-config-app -f examples/microprofile-config/microprofile-config-app.yaml ./charts/wildfly
 ----
 
-### Installation with WildFly S2I
+=== Installation with WildFly S2I
 
 Alternatively, the application can be compiled and built using WildFly S2I images.
 In that case, the Helm Chart is configured with `build.mode` set to `s2i` and the chart also specifies which Galleon layers to provision:
 
 [source,yaml,options="nowrap"]
----
+----
 build:
   mode: s2i
   s2i:
     galleonLayers:
       - jaxrs-server
       - microprofile-platform
----
+----
 
 The `microprofile-config-s2i.yaml` file contains the S2I configuration to build the application.
 
@@ -55,7 +55,7 @@ The `microprofile-config-s2i.yaml` file contains the S2I configuration to build 
 $ helm install microprofile-config-app -f examples/microprofile-config/microprofile-config-app-s2i.yaml ./charts/wildfly
 ----
 
-## Deployment
+== Deployment
 
 Once the chart is installed, let's wait for the application to be built and deployed:
 
@@ -68,7 +68,7 @@ microprofile-config-app   0/1     1            0           27s
 microprofile-config-app   1/1     1            1           5m29s
 ----
 
-## Use the application
+== Use the application
 
 Once the application is deployed on OpenShift, it can be accessed from the route `microprofile-config-app`.
 Let's find the host that we can use to connect to this backend:
@@ -89,7 +89,7 @@ $ curl -L $(oc get route microprofile-config-app -o jsonpath="{.spec.host}")/con
 Hello from OpenShift%
 ----
 
-## Clean up
+== Clean up
 
 The application can be deleted by running the command:
 

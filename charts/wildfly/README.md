@@ -64,7 +64,7 @@ In that case, the minimal configuration is:
 ```yaml
 image:
   name: <name of the application image. e.g. "quay.io/example.org/my-app">
-  tag: <tag of the applicication image. e.g. "1.3" (defaults to "latest")>
+  tag: <tag of the application image. e.g. "1.3" (defaults to "latest")>
 build:
   enabled: false
 ```
@@ -184,12 +184,12 @@ If the Helm chart is only used to build the application image, you can skip the 
 | `deploy.readinessProbe` | Freeform `readinessProbe` field. | HTTP Get on `<ip>:admin/health/ready` | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
 | `deploy.replicas` | Number of pod replicas to deploy. | `1` | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#replicas) | 
 | `deploy.resources` | Freeform `resources` items | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
-| `deploy.route` | Configuration specific to teh creation of a `Route` resource to expose the application | - | - |
+| `deploy.route` | Configuration specific to the creation of a `Route` resource to expose the application | - | - |
 | `deploy.route.enabled` | Determines if a `Route` should be created | `true` | Allows clients outside of OpenShift to access your application |
 | `deploy.route.host` | `host` is an alias/DNS that points to the service. Optional. If not specified a route name will typically be automatically chosen | - | [OKD Documentation](https://docs.okd.io/latest/networking/routes/route-configuration.html) |
 | `deploy.route.tls.enabled` | Determines if the `Route` should be TLS-encrypted. If `deploy.tls.enabled` is true, the route will use the secure service to acess to the deployment | `true`| [OKD Documentation](https://docs.okd.io/latest/networking/routes/route-configuration.html) |
-| `deploy.route.tls.insecureEdgeTerminationPolicy` | Determines if insecure traffic should be redirected | `Redirect` | Allowed values: `Allow, Disable, Redirect` |
-| `deploy.route.tls.termination` | Determines the type of TLS termination to use | `edge`| Allowed values: `edge, reencrypt, passthrough` |
+| `deploy.route.tls.insecureEdgeTerminationPolicy` | Determines if insecure traffic should be redirected | `Redirect` | Allowed values: `Allow`, `Disable`, `Redirect` |
+| `deploy.route.tls.termination` | Determines the type of TLS termination to use | `edge`| Allowed values: `edge`, `reencrypt`, `passthrough` |
 | `deploy.startupProbe` | Freeform `startupProbe` field. | HTTP Get on `<ip>:admin/health/live` | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
 | `deploy.tls.enabled` | Enables the creation of a secure service to access the application. If `true`, WildFly must be configured to enable HTTPS | `false`| |
 | `deploy.volumes` | Freeform `volumes` items| - | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/storage/volumes/) |
