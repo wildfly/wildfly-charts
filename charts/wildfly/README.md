@@ -31,7 +31,7 @@ build:
   uri: <git repository URL of your application>
 ```
 
-If the source repository is private, you must have a source secret created in the same namespace where you are building the application which allows athenticating to the repository.  Provide the name of the secret in the build section as follows:
+If the source repository is private, you must have a source secret created in the same namespace where you are building the application which allows authenticating to the repository.  Provide the name of the secret in the build section as follows:
 
 ```yaml
 build:
@@ -142,7 +142,7 @@ If the application image has been built by another mechanism, you can skip the b
 | `build.ref` | Git ref containing the application you want to build | `main` | - |
 | `build.resources` | Freeform `resources` items | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
 | `build.s2i` | Configuration specific to building with WildFly S2I images | - | - |
-| `build.s2i.buildApplicationImage` | Whether the application image is built. If `false` the Helm release will only create the builder image (and name it from the Helm release) | `true` | - |
+| `build.s2i.buildApplicationImage` | Whether the application image is built. If `false` the Helm release will only create the builder image (and name it from the Helm release) | `true` | - |
 | `build.s2i.builderImage` | WildFly S2I Builder image | [quay.io/wildfly/wildfly-s2i:latest](https://quay.io/repository/wildfly/wildfly-s2i) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i)  |
 | `build.s2i.builderKind` | Determines the type of images for S2I Builder image (`DockerImage`, `ImageStreamTag` or `ImageStreamImage`) | the value of `build.s2i.kind` | [OKD Documentation](https://docs.okd.io/latest/cicd/)|
 | `build.s2i.featurePacks` | *Deprecated* List of Galleon feature-packs identified by Maven coordinates (`<groupId>:<artifactId>:<version>`) | - | The value can be be either a `string` with a list of comma-separated Maven coordinate or an array where each item is the Maven coordinate of a feature pack - [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) - since WildFly 23.0.2|
@@ -151,7 +151,7 @@ If the application image has been built by another mechanism, you can skip the b
 | `build.s2i.kind` | Determines the type of images for S2I Builder and Runtime images (`DockerImage`, `ImageStreamTag` or `ImageStreamImage`) | `DockerImage` | [OKD Documentation](https://docs.okd.io/latest/cicd/builds/build-strategies.html#builds-strategy-s2i-build_build-strategies) |
 | `build.s2i.runtimeImage` | WildFly S2I Runtime image | [quay.io/wildfly/wildfly-runtime:latest](https://quay.io/repository/wildfly/wildfly-runtime) | [WildFly S2I documentation](https://github.com/wildfly/wildfly-s2i) |
 | `build.s2i.runtimeKind` | Determines the type of images for S2I Runtime image (`DockerImage`, `ImageStreamTag` or `ImageStreamImage`) | the value of `build.s2i.kind` | [OKD Documentation](https://docs.okd.io/latest/cicd/)|
-| `build.sourceSecret`|Name of the secret containing the credentials to login to Git source reposiory | - | The secret must exist in the same namespace or the chart will fail to install - [OKD documentation](https://docs.okd.io/latest/cicd/builds/creating-build-inputs.html#builds-manually-add-source-clone-secrets_creating-build-inputs) |
+| `build.sourceSecret`|Name of the secret containing the credentials to login to Git source repository | - | The secret must exist in the same namespace or the chart will fail to install - [OKD documentation](https://docs.okd.io/latest/cicd/builds/creating-build-inputs.html#builds-manually-add-source-clone-secrets_creating-build-inputs) |
 | `build.triggers.genericSecret`| Name of the secret containing the WebHookSecretKey for the Generic Webhook | - | The secret must exist in the same namespace or the chart will fail to install - [OKD documentation](https://docs.okd.io/latest/cicd/builds/triggering-builds-build-hooks.html) |
 | `build.triggers.githubSecret`| Name of the secret containing the WebHookSecretKey for the GitHub Webhook | - | The secret must exist in the same namespace or the chart will fail to install - [OKD documentation](https://docs.okd.io/latest/cicd/builds/triggering-builds-build-hooks.html) |
 | `build.uri` | Git URI that references your git repo | &lt;required&gt; | Be sure to specify this to build the application. |
@@ -187,7 +187,7 @@ If the Helm chart is only used to build the application image, you can skip the 
 | `deploy.route` | Configuration specific to the creation of a `Route` resource to expose the application | - | - |
 | `deploy.route.enabled` | Determines if a `Route` should be created | `true` | Allows clients outside of OpenShift to access your application |
 | `deploy.route.host` | `host` is an alias/DNS that points to the service. Optional. If not specified a route name will typically be automatically chosen | - | [OKD Documentation](https://docs.okd.io/latest/networking/routes/route-configuration.html) |
-| `deploy.route.tls.enabled` | Determines if the `Route` should be TLS-encrypted. If `deploy.tls.enabled` is true, the route will use the secure service to acess to the deployment | `true`| [OKD Documentation](https://docs.okd.io/latest/networking/routes/route-configuration.html) |
+| `deploy.route.tls.enabled` | Determines if the `Route` should be TLS-encrypted. If `deploy.tls.enabled` is true, the route will use the secure service to access to the deployment | `true`| [OKD Documentation](https://docs.okd.io/latest/networking/routes/route-configuration.html) |
 | `deploy.route.tls.insecureEdgeTerminationPolicy` | Determines if insecure traffic should be redirected | `Redirect` | Allowed values: `Allow`, `Disable`, `Redirect` |
 | `deploy.route.tls.termination` | Determines the type of TLS termination to use | `edge`| Allowed values: `edge`, `reencrypt`, `passthrough` |
 | `deploy.startupProbe` | Freeform `startupProbe` field. | HTTP Get on `<ip>:admin/health/live` | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
