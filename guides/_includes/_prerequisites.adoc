@@ -5,4 +5,27 @@ To complete this guide, you need:
 
 * Roughly {prerequisites-time} minutes
 * JDK {jdk-minimal-version} installed with `JAVA_HOME` configured appropriately
++
+.Verify that Java is installed
+[.details%collapsible]
+====
+You can verify that `java` is installed on your machine by executing:
+
+[source,bash]
+----
+java -version
+----
+====
+
 * Apache Maven {maven-version}
++
+.Verify that Maven is installed
+[.details%collapsible]
+====
+You can verify that Maven is installed on your machine by executing:
+
+[source,bash]
+----
+mvn -version
+----
+====
