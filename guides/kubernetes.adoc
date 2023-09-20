@@ -14,6 +14,7 @@ In this guide, you will learn how to build the container image that contains you
 
 include::./_includes/_prerequisites.adoc[]
 include::./_includes/_docker_prerequisite.adoc[]
+include::./_includes/_kubectl_prerequisite.adoc[]
 include::./_includes/_kubernetes_cluster_prerequisite.adoc[]
 include::./_includes/_helm_prerequisite.adoc[]
 

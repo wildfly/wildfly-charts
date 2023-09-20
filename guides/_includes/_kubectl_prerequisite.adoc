@@ -1,0 +1,14 @@
+* `kubectl` is installed
++
+.Verify that kubectl is installed
+[.details%collapsible]
+====
+You can verify that `kubectl` is installed on your machine by executing:
+
+[source,bash]
+----
+kubectl version --client
+----
+
+To install it, please refer to https://kubernetes.io/docs/tasks/tools/[Kubernetes Install Tools].
+====
