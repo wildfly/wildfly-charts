@@ -71,8 +71,12 @@ To follow the deployment of your application, run:
 $ oc get deployment helloworld -w
 ----
 
-## Documentation & Guides
+## Documentation
 
-A complete documentation of the `wildfly` Chart is available from its https://github.com/wildfly/wildfly-charts/blob/main/charts/wildfly/README.md[README].
+### `wildfy` Reference Guide
+
+The https://github.com/wildfly/wildfly-charts/blob/main/charts/wildfly/README.md[README] is a complete reference of all fields to configure the Helm releases installed by the `wildfly` chart.
+
+### Kubernetes Guide
 
 The link:{{ site.baseurl }}/guides/kubernetes.html[Kubernetes Guide] explains how to build an application image and deploy it in a Kubernetes cluster.
