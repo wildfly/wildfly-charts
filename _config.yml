@@ -1,1 +1,14 @@
-theme: jekyll-theme-slate
+title: Helm Chart for WildFly
+url: "https://docs.wildfly.org/"
+baseurl: /wildfly-charts/
+# Build settings
+markdown: kramdown
+
+asciidoctor:
+  base_dir: :docdir
+  safe: unsafe
+  attributes:
+    imagesdir: /assets/img/news/
+
+sass:
+  style: compresse

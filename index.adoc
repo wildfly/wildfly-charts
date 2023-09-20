@@ -1,0 +1,75 @@
+---
+layout: base
+title: Helm Chart for WildFly
+---
+:toc: left
+
+## Add the Chart Repository for WildFly 
+
+The `wildfly` Helm chart can be installed from the chart repository at https://docs.wildfly.org/wildfly-charts:
+
+[source,bash]
+----
+helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
+helm search repo wildfly
+----
+
+.Compatibility with WildFly S2I images
+[NOTE]
+====
+
+The `2.x` Helm Chart for WildFly relies on the https://github.com/wildfly/wildfly-s2i/[new source-to-image (S2I) from WildFly] that is available at https://quay.io/repository/wildfly/wildfly-s2i-jdk11[quay.io/wildfly/wildfly-s2i-jdk11]. It is not compatible with the legacy S2I image at https://quay.io/repository/wildfly/wildfly-centos7[quay.io/wildfly/wildfly-centos7].
+
+You can continue to use the `1.x` Helm Chart for WildFly with the legacy S2I images by specifying a `version` when you install with `helm`. For example, to use the latest `1.x` release of the Helm Chart, you can use:
+
+[source,bash]
+----
+helm install my-legacy-app -f app.yaml wildfly/wildfly --version ^1.x
+----
+====
+
+## Update the Chart Repository for WildFly
+
+To ensure that you are using the latest Helm Chart to build and deploy your application images, you need to update the `wildfly` chart by running the command:
+
+[source,bash]
+----
+helm repo update
+----
+
+## Install a Helm Release
+
+We can build and deploy the https://github.com/wildfly/quickstart/tree/main/helloworld[helloworld quickstart] with this https://raw.githubusercontent.com/wildfly/quickstart/main/helloworld/charts/helm.yaml[example file]:
+
+[source,bash]
+----
+helm install helloworld \
+    -f https://raw.githubusercontent.com/wildfly/quickstart/main/helloworld/charts/helm.yaml \
+    wildfly/wildfly
+----
+
+When this command is executed, it will ouput information about the installed Helm release:
+
+[source,bash]
+----
+NAME: helloworld
+LAST DEPLOYED: Wed Sep 20 12:29:06 2023
+NAMESPACE: jmesnil1-dev
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Your WildFly application is building! To follow the build, run:
+
+$ oc get build -w
+
+Note that your Deployment will report "ErrImagePull" and "ImagePullBackOff" until the build is complete. Once the build is complete, your image will be automatically rolled out.
+
+To follow the deployment of your application, run:
+
+$ oc get deployment helloworld -w
+----
+
+## Documentation
+
+A complete documentation of the `wildfly` Chart is available from its https://github.com/wildfly/wildfly-charts/blob/main/charts/wildfly/README.md[README].
