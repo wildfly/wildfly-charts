@@ -4,7 +4,7 @@
 To complete this guide, you need:
 
 * Roughly {prerequisites-time} minutes
-* JDK {jdk-minimal-version} installed with `JAVA_HOME` configured appropriately
+* JDK {jdk-minimal-version} is installed with `JAVA_HOME` configured appropriately
 +
 .Verify that Java is installed
 [.details%collapsible]
@@ -17,7 +17,7 @@ java -version
 ----
 ====
 
-* Apache Maven {maven-version}
+* Apache Maven {maven-version} is installed
 +
 .Verify that Maven is installed
 [.details%collapsible]

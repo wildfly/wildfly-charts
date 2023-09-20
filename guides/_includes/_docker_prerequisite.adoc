@@ -1,4 +1,4 @@
-* `docker` installed
+* `docker` is installed
 +
 .Verify that Docker is installed
 [.details%collapsible]
