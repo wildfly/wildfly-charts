@@ -6,11 +6,11 @@ include::./_includes/_attributes.adoc[]
 :prerequisites-time: 20
 :toc: left
 
-The `wildfly` Helm Chart is designed to build an application image using OpenShift Source-to-Image (S2I) by default.
+The `wildfly` Helm Chart is designed to build an application image composed of https://wildfly.org[WildFly] and your application code using OpenShift Source-to-Image (S2I) by default.
 
-When you deploy your application on Kubernetes, you are responsible for providing the application image. The `wildfly` chart can then be use to simplify the deployment and its configuration.
+When you deploy your application on Kubernetes, S2I is not available and you are responsible for providing the application image. The `wildfly` chart can then be use to simplify the deployment and its configuration.
 
-In this guide, you will learn how to build the container image that contains your application with the https://docs.wildfly.org/wildfly-maven-plugin[wildfly-maven-plugin], push that image to a container registry and deploy it on Kubernetes.
+In this guide, you will learn how to build an application image that contains your application with the https://docs.wildfly.org/wildfly-maven-plugin[wildfly-maven-plugin], push that image to a container registry and deploy it on Kubernetes.
 
 include::./_includes/_prerequisites.adoc[]
 include::./_includes/_docker_prerequisite.adoc[]
@@ -20,7 +20,7 @@ include::./_includes/_helm_prerequisite.adoc[]
 
 ## Build the Application Image
 
-If you have access to your application code, you can build an application image by configuring the https://docs.wildfly.org/wildfly-maven-plugin[wildfly-maven-plugin] and using its `image` goal. 
+If you have access to your application code, you can build an application image by configuring the https://docs.wildfly.org/wildfly-maven-plugin[wildfly-maven-plugin] and using its https://docs.wildfly.org/wildfly-maven-plugin/releases/4.2/image-mojo.html[`wildfly:image`] goal. 
 This goal will create a container image (using either `docker`) that contains a provisioned WildFly server as well as your application deployment.
 
 For an example of using the `wildfly-maven-plugin`, we can use the https://github.com/wildfly/quickstart/tree/main/helloworld[helloworld quickstart for WildFly]:
@@ -49,7 +49,7 @@ and access your application at http://localhost:8080/.
 
 You now have a container image on your machine and need to push it to a container registry so that the image will be pulled by Kubernetes when it is deployed.
 
-As an example, you can use https://quay.io to register your container images.
+As an example, you can use https://quay.io[Quay.io] to register your container images.
 
 You can tag your application image and push it to Quay with the commands:
 
@@ -66,11 +66,11 @@ Your application image is now available at `quay.io/<YOUR USERNAME>/helloworld:l
 
 Your container image is private by default in Quay.io so you will have to create a _pull secret_ to be able to pull it from Kubernetes.
 
-To create this secret, follow the instructions from https://quay.io[Quay.io] > `Account Settings` > `Generate Encrypted Password` and select `Kubernetes Secret` after verifying your credentials.
+To create this secret, follow the instructions from your profile on https://quay.io[Quay.io] (in the top right-hand corner) > `Account Settings` > `Generate Encrypted Password`. After you verify your credentials, select `Kubernetes Secret`.
 
 The instructions explain how to create a secret named `<YOUR_USERNAME>-pull-secret`.
 
-Once you created it in Kubernetes, you can verify its existence with:
+After you create the secret in Kubernetes, you can verify its existence with:
 
 [source,bash]
 ----
