@@ -3,6 +3,7 @@ layout: base
 title: Helm Chart for WildFly
 ---
 :toc: left
+:page-liquid:
 
 ## Add the Chart Repository for WildFly 
 
@@ -70,6 +71,8 @@ To follow the deployment of your application, run:
 $ oc get deployment helloworld -w
 ----
 
-## Documentation
+## Documentation & Guides
 
 A complete documentation of the `wildfly` Chart is available from its https://github.com/wildfly/wildfly-charts/blob/main/charts/wildfly/README.md[README].
+
+The link:{{ site.baseurl }}/guides/kubernetes.html[Kubernetes Guide] explains how to build an application image and deploy it in a Kubernetes cluster.

@@ -1,0 +1,144 @@
+---
+layout: base
+title: Deploy on Kubernetes with the Helm Chart
+---
+include::./_includes/_attributes.adoc[]
+:prerequisites-time: 20
+:toc: left
+
+The `wildfly` Helm Chart is designed to build an application image using OpenShift Source-to-Image (S2I) by default.
+
+When you deploy your application on Kubernetes, you are responsible for providing the application image. The `wildfly` chart can then be use to simplify the deployment and its configuration.
+
+In this guide, you will learn how to build the container image that contains your application with the https://docs.wildfly.org/wildfly-maven-plugin[wildfly-maven-plugin], push that image to a container registry and deploy it on Kubernetes.
+
+include::./_includes/_prerequisites.adoc[]
+* `docker` installed
++
+[NOTE]
+====
+You can verify that `docker` is running on your machine by executing:
+
+[source,bash]
+----
+docker -v
+----
+====
+* A Kubernetes cluster 
++
+[NOTE]
+====
+You can use https://kind.sigs.k8s.io[Kind] for local development
+====
+
+## Build the Application Image
+
+If you have access to your application code, you can build an application image by configuring the https://docs.wildfly.org/wildfly-maven-plugin[wildfly-maven-plugin] and using its `image` goal. 
+This goal will create a container image (using either `docker`) that contains a provisioned WildFly server as well as your application deployment.
+
+For an example of using the `wildfly-maven-plugin`, we can use the https://github.com/wildfly/quickstart/tree/main/helloworld[helloworld quickstart for WildFly]:
+
+[source,bash]
+----
+git clone https://github.com/wildfly/quickstart.git
+cd quickstart/helloworld
+mvn -Popenshift package wildfly:image
+----
+
+Once the `Maven` build is successful, you will have a container image named `helloworld:latest` that contains your application.
+
+### Run the Application Image with Docker
+
+You can run it locally with Docker with the command:
+
+[source,bash]
+----
+docker run -p 8080:8080 helloworld:latest
+----
+
+and access your application at http://localhost:8080/.
+
+## Push the application image to a container registry
+
+You now have a container image on your machine and need to push it to a container registry so that the image will be pulled by Kubernetes when it is deployed.
+
+As an example, you can use https://quay.io to register your container images.
+
+You can tag your application image and push it to Quay with the commands:
+
+[source,bash]
+----
+docker login quay.io
+docker tag helloworld:latest quay.io/<YOUR USERNAME>/helloworld:latest
+docker push quay.io/<YOUR USERNAME>/helloworld:latest
+----
+
+Your application image is not available at `quay.io/<YOUR USERNAME>/helloworld:latest`
+
+## Create an Image Pull Secret
+
+Your container image is private by default in Quay.io so you will have to create a _pull secret_ to be able to pull it from Kubernetes.
+
+To create this secret, follow the instructions from https://quay.io[Quay.io] > `Account Settings` > `Generate Encrypted Password` and select `Kubernetes Secret` after verifying your credentials.
+
+The instructions explain how to create a secret named `<YOUR_USERNAME>-pull-secret`.
+
+Once you created it in Kubernetes, you can verify its existence with:
+
+[source,bash]
+----
+kubectl get secret <YOUR_USERNAME>-pull-secret
+----
+
+## Deploy the Application Image on Kubernetes
+
+Now that your application image is available from a container registry and you have create a pull secret to be able to pull it from Kubernetes, you can use the `wildfly` chart to deploy it.
+
+The chart values needs to be configured to disable building 
+the application image and creating OpenShift route.
+
+The name of the application image must also be specified with the `image.name` field.
+
+A typical Helm file would look like:
+
+.helm.yaml
+[source,yaml]
+----
+image:
+  name: quay.io/<YOUR USERNAME>/helloworld
+build:
+  enabled: false # Disable S2I build
+deploy:
+  imagePullSecrets:
+    - name: <YOUR_USERNAME>-pull-secret
+  route:
+    enabled: false # Disable OpenShift Route
+----
+
+You can now deploy your application with these values:
+
+[source,bash]
+----
+helm install helloworld \
+  -f ./helm.yaml \
+  --repo https://docs.wildfly.org/wildfly-charts \
+  wildfly
+----
+
+Your application is now available in Kubernetes and you can see its deployment with:
+
+[source,bash]
+----
+kubectl describe deployment helloworld
+----
+
+## Access the Application
+
+To verify your applicaiton you can use Kubernetes port forwarding by running the command:
+
+[source,bash]
+----
+kubectl port-forward service/helloworld 8080:8080
+----
+
+and access your application at http://localhost:8080/. 
