@@ -1,4 +1,4 @@
-* `helm` installed
+* `helm` is installed
 +
 .Verify that Helm is installed
 [.details%collapsible]

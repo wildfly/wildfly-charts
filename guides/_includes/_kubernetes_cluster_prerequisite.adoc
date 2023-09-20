@@ -1,4 +1,4 @@
-* Access to a Kubernetes cluster 
+* You have access to a Kubernetes cluster 
 +
 .Create a Kubernetes cluster on your local machine
 [.details%collapsible]
