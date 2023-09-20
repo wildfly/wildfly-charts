@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Deploy on Kubernetes with the `wildfly` Helm Chart
+title: Deploy on Kubernetes with the Helm Chart for WildFly
 ---
 include::./_includes/_attributes.adoc[]
 :prerequisites-time: 20
