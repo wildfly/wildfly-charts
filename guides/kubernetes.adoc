@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Deploy on Kubernetes with the Helm Chart
+title: Deploy on Kubernetes with the `wildfly` Helm Chart
 ---
 include::./_includes/_attributes.adoc[]
 :prerequisites-time: 20
@@ -69,11 +69,11 @@ You can tag your application image and push it to Quay with the commands:
 [source,bash]
 ----
 docker login quay.io
-docker tag helloworld:latest quay.io/<YOUR USERNAME>/helloworld:latest
-docker push quay.io/<YOUR USERNAME>/helloworld:latest
+docker tag helloworld:latest quay.io/<YOUR_USERNAME>/helloworld:latest
+docker push quay.io/<YOUR_USERNAME>/helloworld:latest
 ----
 
-Your application image is not available at `quay.io/<YOUR USERNAME>/helloworld:latest`
+Your application image is now available at `quay.io/<YOUR USERNAME>/helloworld:latest`
 
 ## Create an Image Pull Secret
 
@@ -105,7 +105,7 @@ A typical Helm file would look like:
 [source,yaml]
 ----
 image:
-  name: quay.io/<YOUR USERNAME>/helloworld
+  name: quay.io/<YOUR_USERNAME>/helloworld
 build:
   enabled: false # Disable S2I build
 deploy:
@@ -132,13 +132,24 @@ Your application is now available in Kubernetes and you can see its deployment w
 kubectl describe deployment helloworld
 ----
 
-## Access the Application
+## Access the Application from the Cluster
 
-To verify your applicaiton you can use Kubernetes port forwarding by running the command:
+To verify your application, you can use Kubernetes Port Forwarding by running the command:
 
 [source,bash]
 ----
 kubectl port-forward service/helloworld 8080:8080
 ----
 
-and access your application at http://localhost:8080/. 
+and access your application at http://localhost:8080/.
+
+## Conclusion
+
+In this guide, you learnt how you can use the `wildfly` Helm chart to deploy your application on Kubernetes.
+
+First, you learnt how to use the `wildfly-maven-plugin` to build a container image from your source code.
+You also learnt how to push this image to a container registry and pull it from Kubernetes with a _pull secret_.
+
+As this Helm Chart is designed to use OpenShift Source-to-Image (S2I) by default, you learnt to configure it to disable the `build` process.
+
+Finally, you used Kubernetes Port Forwarding to access your application on the Kubernetes cluster.
