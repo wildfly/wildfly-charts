@@ -1,0 +1,14 @@
+* Access to a Kubernetes cluster 
++
+.Create a Kubernetes cluster on your local machine
+[.details%collapsible]
+====
+You can use https://kind.sigs.k8s.io[Kind] or https://minikube.sigs.k8s.io/docs/start/[Minikube] for local development.
+
+Once you have started your Kubernetes cluster, you can verify you have access to it by executing:
+
+[source,bash]
+----
+kubectl cluster-info
+----
+====

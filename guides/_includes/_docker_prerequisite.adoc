@@ -1,0 +1,12 @@
+* `docker` installed
++
+.Verify that Docker is installed
+[.details%collapsible]
+====
+You can verify that Maven is installed on your machine by executing:
+
+[source,bash]
+----
+docker -v
+----
+====

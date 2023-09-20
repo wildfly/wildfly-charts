@@ -1,0 +1,14 @@
+* `helm` installed
++
+.Verify that Helm is installed
+[.details%collapsible]
+====
+You can verify that `helm` is installed on your machine by executing:
+
+[source,bash]
+----
+helm version
+----
+
+To install it, please refer to its https://helm.sh/docs/intro/install/[Install Guide].
+====

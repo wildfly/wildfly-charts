@@ -13,23 +13,9 @@ When you deploy your application on Kubernetes, you are responsible for providin
 In this guide, you will learn how to build the container image that contains your application with the https://docs.wildfly.org/wildfly-maven-plugin[wildfly-maven-plugin], push that image to a container registry and deploy it on Kubernetes.
 
 include::./_includes/_prerequisites.adoc[]
-* `docker` installed
-+
-[NOTE]
-====
-You can verify that `docker` is running on your machine by executing:
-
-[source,bash]
-----
-docker -v
-----
-====
-* A Kubernetes cluster 
-+
-[NOTE]
-====
-You can use https://kind.sigs.k8s.io[Kind] for local development
-====
+include::./_includes/_docker_prerequisite.adoc[]
+include::./_includes/_kubernetes_cluster_prerequisite.adoc[]
+include::./_includes/_helm_prerequisite.adoc[]
 
 ## Build the Application Image
 
