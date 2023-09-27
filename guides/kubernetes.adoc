@@ -130,6 +130,96 @@ kubectl port-forward service/helloworld 8080:8080
 
 and access your application at http://localhost:8080/.
 
+## Deploy and expose the application to the outside world
+
+Now that you are satified with your application you might want to expose it to the outside world.
+The `wildfly` helm chart can also create an `Ingress` resource for you so that your application is available outside of the cluster.
+This requires that your Kubernetes cluster has the `ingress-operator`.
+
+If you want to test using https://minikube.sigs.k8s.io/docs/start/[minikube]:
+[source,bash]
+----
+ minikube start --addons=metrics-server,ingress,dashboard --vm=true --disk-size=50GB
+----
+
+If you want to test using https://kind.sigs.k8s.io/[kind]:
+[source,bash]
+----
+ kind create cluster
+ ...
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+----
+
+### Create a secret for TLS (Optionnal)
+
+This is optional as you might not want to use TLS.
+First you need to create a `secret` to hold the certificates used for TLS connection.
+
+[source,bash]
+----
+kubectl create secret tls helloworld-secret-tls --key="tls.key" --cert="tls.crt"
+----
+
+If you need a certificate for testing purpose you can execute the following command which create a self-signed certificate for the `tests.info` DNS name:
+[source,bash]
+----
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=tests.info"
+----
+
+### Deploy your application
+
+Now we need to edit the previous `helm.yaml` file to provide the required parameters:
+
+.helm.yaml
+[source,yaml]
+----
+image:
+  name: quay.io/<YOUR_USERNAME>/helloworld
+build:
+  enabled: false # Disable S2I build
+deploy:
+  imagePullSecrets:
+    - name: <YOUR_USERNAME>-pull-secret
+  route:
+    enabled: false # Disable OpenShift Route
+  ingress:
+    enabled: true #Enable Ingress resource creation
+    host: <YOUR-EXPOSED-DNS-NAME> #tests.info
+    tls:
+      secret: helloworld-secret-tls
+----
+
+NOTE: If you want to use the self-signed certificates you have generated you can use `tests.info` as the `host` value.
+
+NOTE: If you want to have several applications on the same host you can specify a `path` and `pathType` for your application.
+
+You can now deploy your application with these values:
+[source,bash]
+----
+helm upgrade helloworld \
+  -f ./helm.yaml \
+  --repo https://docs.wildfly.org/wildfly-charts \
+  wildfly
+----
+
+You should be able to access your application through a TLS connection on the specified DNS name.
+
+If you have used `tests.info` as the DNS value you can now test using the following command:
+
+[source,bash]
+----
+curl --resolve tests.info:443:<YOUR_CLUSTER_IP_ADDRESS>  --insecure https://tests.info
+----
+
+[TIP]
+====
+You can get the cluster IP address using:
+[source,bash]
+----
+kubectl cluster-info
+----
+====
+
 ## Conclusion
 
 In this guide, you learnt how you can use the `wildfly` Helm chart to deploy your application on Kubernetes.
