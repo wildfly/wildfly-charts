@@ -1,0 +1,33 @@
+{{- define "wildfly-common.ingress.tpl" -}}
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ include "wildfly-common.appName" . }}
+  labels: {}
+  annotations: {}
+spec:
+  {{- if .Values.deploy.ingress.className }}
+  ingressClassName: {{ .Values.deploy.ingress.className }}
+  {{- end }}
+  {{- include "wildfly-common.deployment.ingressSecret" . | nindent 2 -}}
+  rules:
+    - 
+      {{- if .Values.deploy.ingress.host }}
+      host: {{ .Values.deploy.ingress.host }}
+      {{- end }}
+      http:
+        paths:
+          - path: {{ .Values.deploy.ingress.path }}
+            pathType: {{ .Values.deploy.ingress.pathType }}
+            backend:
+              service:
+                name: {{ include "wildfly-common.appName" . }}
+                port:
+                  number: 8080
+
+{{- end }}
+
+
+{{- define "wildfly-common.ingress" -}}
+{{- include "wildfly-common.util.merge" (append . "wildfly-common.ingress.tpl") -}}
+{{- end -}}

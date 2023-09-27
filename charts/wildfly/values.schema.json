@@ -504,6 +504,46 @@
                       "null"
                     ]
                 },
+                "ingress": {
+                    "description": "Ingress configuration",
+                    "type": "object",
+                    "properties": {
+                        "className": {
+                          "description": "Configure the `ingressClassName` which is the name of the IngressClass cluster resource. The associated IngressClass defines which controller will implement the resource. If not set the default `ingressClass` defined on the cluster is used.",
+                          "type": "string"
+                        },
+                        "enabled": {
+                            "description": "Determines if a `Ingress` configuration should be created",
+                            "default": false,
+                            "type": "boolean"
+                        },
+                        "host": {
+                          "description": "is an alias/DNS that is used as endpoint for inbound traffic.",
+                          "type": "string"
+                        },
+                        "path": {
+                          "description": "The path that an incoming request must match before the load balancer directs traffic to the referenced Service.",
+                          "default": "/",
+                          "type": "string"
+                        },
+                        "pathType": {
+                          "description": "Each path in an Ingress is required to have a corresponding path type to define how the path is matched.",
+                          "enum": ["ImplementationSpecific", "Exact", "Prefix"],
+                          "default": "Prefix",
+                          "type": "string"
+                        },
+                        "tls": {
+                          "description": "TLS Configuration for Ingress",
+                          "type": "object",
+                          "properties": {
+                            "secret": {
+                              "description": "Name of the secret which contains the certificates to use for TLS.",
+                              "type": "string"
+                            }
+                          }
+                        }
+                    }
+                },
                 "route": {
                     "description": "Route configuration",
                     "type": "object",
