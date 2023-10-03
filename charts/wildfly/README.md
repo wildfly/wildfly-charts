@@ -127,6 +127,7 @@ The configuration for the application image that is built and deployed is config
 The configuration to build the application image is configured in a `build` section.
 
 If the application image has been built by another mechanism, you can skip the building part of the Helm Chart by setting the `build.enabled` field to `false`.
+If you are not deploying on OpenShift then as OpenShift S2I isn't supported then the image can't be built, thus even if `build.enabled` field is set to `true` the building part of the Helm Chart won't be triggered.
 
 | Value | Description | Default | Additional Information |
 | ----- | ----------- | ------- | ---------------------- |

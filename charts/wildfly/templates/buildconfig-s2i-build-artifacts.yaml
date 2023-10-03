@@ -1,4 +1,4 @@
-{{- if and .Values.build.enabled (eq .Values.build.mode "s2i") }}
+{{- if and (.Capabilities.APIVersions.Has "build.openshift.io/v1") (and .Values.build.enabled (eq .Values.build.mode "s2i")) }}
 {{- include "wildfly-common.buildconfig-s2i-build-artifacts" (list . "wildfly.buildconfig-s2i-build-artifacts") -}}
 {{- end -}}
 
