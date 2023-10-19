@@ -509,7 +509,8 @@
                     "type": "object",
                     "properties": {
                         "className": {
-                          "description": "Configure the `ingressClassName` which is the name of the IngressClass cluster resource. The associated IngressClass defines which controller will implement the resource. If not set the default `ingressClass` defined on the cluster is used.",
+                          "description": "Configure the `ingressClassName` which is the name of the IngressClass cluster resource. The associated IngressClass defines which controller will implement the resource. Defaults to 'haproxy', unset to use the default `ingressClass` defined on the cluster.",
+                          "default": "haproxy",
                           "type": "string"
                         },
                         "enabled": {
