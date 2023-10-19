@@ -4,14 +4,24 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: {{ include "wildfly-common.appName" . }}
   labels: {}
-  annotations: {}
+  {{- if eq .Values.deploy.ingress.className "haproxy" }}
+  annotations:
+    haproxy-ingress.github.io/affinity: cookie
+    haproxy-ingress.github.io/backend-server-naming: pod
+    haproxy-ingress.github.io/session-cookie-dynamic: "false"
+    haproxy-ingress.github.io/session-cookie-keywords: preserve
+    haproxy-ingress.github.io/session-cookie-name: INGRESSCOOKIE
+    haproxy-ingress.github.io/session-cookie-preserve: "true"
+    haproxy-ingress.github.io/session-cookie-strategy: insert
+    haproxy-ingress.github.io/session-cookie-value-strategy: server-name
+  {{- end }}
 spec:
   {{- if .Values.deploy.ingress.className }}
   ingressClassName: {{ .Values.deploy.ingress.className }}
   {{- end }}
   {{- include "wildfly-common.deployment.ingressSecret" . | nindent 2 -}}
   rules:
-    - 
+    -
       {{- if .Values.deploy.ingress.host }}
       host: {{ .Values.deploy.ingress.host }}
       {{- end }}

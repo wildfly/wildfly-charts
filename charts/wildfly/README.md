@@ -204,3 +204,23 @@ If the Helm chart is only used to build the application image, you can skip the 
 
 NOTE: Configuring a `route` and an `ingress` are exclusive. If both are enabled and you are deploying on Openshift then a `route` will be created. If you are deploying on Kubernetes then an `ingress` will be created.
 
+## Installing Ingress Controller with Efficient HTTP Routing Support
+
+WildFly uses a distributed cache to store HTTP session data and scale efficiently.
+In order for the load-balancer to route requests for HTTP session to the backend servers efficiently,
+an ingress controller implementation that allows for back end server to control the affinity must be used.
+At the moment, this Helm Chart provisions the required configuration (Ingress annotations) for HAProxy Ingress controller if the "haproxy" `IngressClass` is used.
+
+The HAProxy Ingress controller can be provisioned using Helm from this repository:
+
+```sh
+helm repo add haproxy-ingress https://haproxy-ingress.github.io/charts
+```
+
+Once the repository is added, install the `haproxy-ingress` into a desired namespace and instruct it to create an `IngressClass` resource.
+
+```sh
+helm install haproxy-ingress haproxy-ingress/haproxy-ingress --create-namespace --namespace=ingress-controller --set controller.ingressClassResource.enabled=true
+```
+
+For complete guide and configuration see [HAProxy Ingress documentation](https://haproxy-ingress.github.io/docs/getting-started/).
