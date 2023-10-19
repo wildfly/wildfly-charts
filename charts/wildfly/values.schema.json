@@ -505,7 +505,7 @@
                     ]
                 },
                 "ingress": {
-                    "description": "Ingress configuration",
+                    "description": "Configuration specific to the creation of an `Ingress` resource to expose the application. Alternative to OpenShift-specific 'route' resource.",
                     "type": "object",
                     "properties": {
                         "className": {
@@ -513,21 +513,21 @@
                           "type": "string"
                         },
                         "enabled": {
-                            "description": "Determines if a `Ingress` configuration should be created",
+                            "description": "Determines if a `Ingress` configuration should be created.",
                             "default": false,
                             "type": "boolean"
                         },
                         "host": {
-                          "description": "is an alias/DNS that is used as endpoint for inbound traffic.",
+                          "description": "The `host` is an alias/DNS that is used as endpoint for inbound traffic.",
                           "type": "string"
                         },
                         "path": {
-                          "description": "The path that an incoming request must match before the load balancer directs traffic to the referenced Service.",
+                          "description": "The `path` that an incoming request must match before the load balancer directs traffic to the referenced Service.",
                           "default": "/",
                           "type": "string"
                         },
                         "pathType": {
-                          "description": "Each path in an Ingress is required to have a corresponding path type to define how the path is matched.",
+                          "description": "Each `path` in an Ingress rule is required to have a corresponding `pathType` to define how the path is matched.",
                           "enum": ["ImplementationSpecific", "Exact", "Prefix"],
                           "default": "Prefix",
                           "type": "string"
