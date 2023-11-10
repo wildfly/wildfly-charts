@@ -23,6 +23,10 @@ deploy:
       enabled: true
       termination: edge
       insecureEdgeTerminationPolicy: Redirect
+  ingress:
+    enabled: false
+    path: /
+    pathType: Prefix
   livenessProbe:
     httpGet:
       path: /health/live
