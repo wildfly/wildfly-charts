@@ -1,4 +1,4 @@
-{{- if and .Values.build.enabled (eq .Values.build.output.kind "ImageStreamTag") -}}
+{{- if and (.Capabilities.APIVersions.Has "image.openshift.io/v1") (and (.Capabilities.APIVersions.Has "build.openshift.io/v1") (and .Values.build.enabled (eq .Values.build.output.kind "ImageStreamTag"))) -}}
 
 {{- if .Values.build.s2i.buildApplicationImage -}}
 {{- include "wildfly-common.imagestream" (list . "wildfly.metadata.labels") }}
