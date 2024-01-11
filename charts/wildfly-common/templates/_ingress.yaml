@@ -6,7 +6,7 @@ metadata:
   labels: {}
   annotations: {}
 spec:
-  {{- if .Values.deploy.ingress.className }}
+  {{- if (.Values.deploy.ingress).className }}
   ingressClassName: {{ .Values.deploy.ingress.className }}
   {{- end }}
   {{- include "wildfly-common.deployment.ingressSecret" . | nindent 2 -}}
