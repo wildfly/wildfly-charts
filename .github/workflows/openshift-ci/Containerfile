@@ -1,0 +1,65 @@
+# Use the fedora image as the base image
+FROM fedora:39
+
+ARG BATS_CORE_VERSION=v1.10.0
+ARG MAVEN_VERSION=3.9.6
+ARG TINI_VERSION=v0.19.0
+ARG TARGETPLATFORM
+ARG LIBS_VER_SUPPORT=0.3.0
+ARG LIBS_VER_FILE=0.4.0
+ARG LIBS_VER_ASSERT=2.1.0
+ARG LIBS_VER_DETIK=1.2.1
+ARG UID=1001
+ARG GID=115
+
+# Install additional tooling, see https://github.com/openshift/release/blob/master/clusters/app.ci/supplemental-ci-images/ci-tools-build-root.yaml#L338
+RUN INSTALL_PKGS="git httpd-tools jq wget ncurses parallel openssl" && \
+    dnf install -y $INSTALL_PKGS && \
+    rpm -V $INSTALL_PKGS && \
+    dnf clean all && \
+    touch /os-build-image
+
+RUN git clone https://github.com/bats-core/bats-core.git && cd bats-core && git -c advice.detachedHead=false checkout $BATS_CORE_VERSION
+COPY .github/workflows/openshift-ci/scripts/install_tini.sh /bats-core/docker/install_tini.sh
+# default to amd64 when not running in buildx environment that provides target platform
+RUN /bats-core/docker/install_tini.sh "${TARGETPLATFORM-linux/amd64}"
+# Install bats libs
+RUN /bats-core/docker/install_libs.sh support ${LIBS_VER_SUPPORT}
+RUN /bats-core/docker/install_libs.sh file ${LIBS_VER_FILE}
+RUN /bats-core/docker/install_libs.sh assert ${LIBS_VER_ASSERT}
+RUN /bats-core/docker/install_libs.sh detik ${LIBS_VER_DETIK}
+RUN cp -Rf /bats-core/ /opt/bats/
+
+
+# Install parallel and accept the citation notice (we aren't using this in a
+# context where it make sense to cite GNU Parallel).
+RUN mkdir -p ~/.parallel && touch ~/.parallel/will-cite \
+    && mkdir /code
+
+RUN ln -s /opt/bats/bin/bats /usr/local/bin/bats
+
+# Env vars to downloading and install the OpenShift + Helm CLIs.
+# ENV OC_PKG=https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/oc/latest/linux/oc.tar.gz \
+#       OC_HOME=/usr/oc/oc-latest \
+
+ENV OC_PKG=https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-4.12/openshift-client-linux.tar.gz \
+      OC_HOME=/usr/oc/oc-4.1.2 \
+      HELM_PKG=https://get.helm.sh/helm-v3.13.3-linux-amd64.tar.gz \
+      HELM_HOME=/usr/helm/helm-3.13.3
+
+RUN set -eux; \
+      # Install oc CLI
+      curl -L --output /tmp/oc.tgz "$OC_PKG"; \
+      mkdir -p "$OC_HOME"; \
+      tar --extract --file /tmp/oc.tgz --directory "$OC_HOME"; \
+      ln -s "$OC_HOME"/oc /usr/bin/oc; \
+      # Install helm CLI
+      curl -L --output /tmp/helm.tgz "$HELM_PKG"; \
+      mkdir -p "$HELM_HOME"; \
+      tar --extract --file /tmp/helm.tgz --directory "$HELM_HOME"; \
+      ls -alR "$HELM_HOME"; \
+      ln -s "$HELM_HOME"/linux-amd64/helm /usr/bin/helm;
+
+WORKDIR /code/
+
+# ENTRYPOINT ["/tini", "--", "bash", "bats"]
