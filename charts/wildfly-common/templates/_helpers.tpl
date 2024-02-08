@@ -145,7 +145,7 @@ imagePullSecrets:
 Ingress TLS certificates secret
 */}}
 {{- define "wildfly-common.deployment.ingressSecret" -}}
-{{- if .Values.deploy.ingress.tls.secret}}
+{{- if ((.Values.deploy.ingress).tls).secret}}
 {{- include "wildfly-common.secret.lookup" (list .Release.Namespace .Values.deploy.ingress.tls.secret "Secret '%s' for certificates to create TLS connection with Ingress does not exist.") -}}
 tls:
     - 
