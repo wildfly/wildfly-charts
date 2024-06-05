@@ -16,6 +16,16 @@ icon: https://design.jboss.org/wildfly/logo/final/wildfly_logomark_256px.png
 annotations:
   charts.openshift.io/name: WildFly
   charts.openshift.io/provider: WildFly
+  artifacthub.io/category: ApplicationServer
+  artifacthub.io/images: |
+    - name: builderImage
+      image: quay.io/wildfly/wildfly-s2i:latest
+    - name: runtimeImage
+      image: quay.io/wildfly/wildfly-runtime:latest
+  artifacthub.io/license: Apache-2.0
+  artifacthub.io/signKey: |
+    fingerprint: 54CBE792CAFD9AD9E59D7C8E9E0332B74DCA3EF1
+    url: http://lacrosse.corp.redhat.com/~ehugonne/signing_key.asc
 
 dependencies:
 - name: wildfly-common
