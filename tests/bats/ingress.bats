@@ -27,8 +27,6 @@ deploy:
     enabled: true
   route:
     enabled: false # Disable OpenShift Route
-  imagePullSecrets:
-    - name: github-secret
 EOF
     sleep 5    
     ${CLUSTER_CLIENT} wait deployment test-ingress --for condition=Available=True --timeout=90s
@@ -58,8 +56,6 @@ deploy:
       secret: test-secret-tls
   route:
     enabled: false # Disable OpenShift Route
-  imagePullSecrets:
-    - name: github-secret
 EOF
     sleep 5
     ${CLUSTER_CLIENT} wait deployment test-ingress --for condition=Available=True --timeout=90s

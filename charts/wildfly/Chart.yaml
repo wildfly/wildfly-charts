@@ -25,7 +25,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/signKey: |
     fingerprint: 54CBE792CAFD9AD9E59D7C8E9E0332B74DCA3EF1
-    url: http://lacrosse.corp.redhat.com/~ehugonne/signing_key.asc
+    url: https://docs.wildfly.org/wildfly-charts/pubkey.asc
 
 dependencies:
 - name: wildfly-common

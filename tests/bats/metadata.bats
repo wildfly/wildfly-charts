@@ -25,8 +25,6 @@ deploy:
     foo-label: bar
   route:
     enabled: false # Disable OpenShift Route
-  imagePullSecrets:
-    - name: github-secret
 EOF
 
     run ${CLUSTER_CLIENT} get deployment test-metadata -o jsonpath='{.metadata.labels}'
@@ -44,8 +42,6 @@ deploy:
     foo-annotation: bar
   route:
     enabled: false # Disable OpenShift Route
-  imagePullSecrets:
-    - name: github-secret
 EOF
 
     run ${CLUSTER_CLIENT} get deployment test-metadata -o jsonpath='{.metadata.annotations}'

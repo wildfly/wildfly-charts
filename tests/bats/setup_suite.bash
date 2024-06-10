@@ -37,6 +37,7 @@ setup_suite() {
         cd quickstart/helloworld
         mvn -B -Popenshift package wildfly:image
         docker tag helloworld ${IMAGE_REGISTRY}/helloworld
+        echo "docker tag of ${IMAGE_REGISTRY}/helloworld was successful" >&3
         docker push ${IMAGE_REGISTRY}/helloworld
         echo "docker push of ${IMAGE_REGISTRY}/helloworld was successful" >&3
         popd
