@@ -14,22 +14,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
           submodules: recursive
 
       - name: Install Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@v4
         with:
           version: v3.13.3
 
       - name: Setup Bats and Bats libs
-        uses: bats-core/bats-action@1.5.4
+        uses: bats-core/bats-action@2.0.0
         with:
-          bats-version: 1.10.0
+          bats-version: 1.11.0
           support-path: ${{ github.workspace }}/tests/test-common/bats-support
           assert-path: ${{ github.workspace }}/tests/test-common/bats-assert
+          detik-install: false
 
       - name: Login to Github Container Registry
         uses: docker/login-action@v3
@@ -39,19 +40,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.5.0
+        uses: helm/kind-action@v1.10.0
         with:
           node_image: "kindest/node:v1.29.0"
           config: ./.github/workflows/ci/kind-config.yaml
           cluster_name: chart-testing
-      
-      - name: Create registry secret
+
+      - name: Setup Image registry
         run: |-
-          kubectl create secret docker-registry github-secret --docker-server=ghcr.io/${{ github.repository_owner }} --docker-username=${{ github.actor }} --docker-password=${{ github.token }}
-  
-      - name: Check registry secret
-        run: |-
-          kubectl get secret github-secret --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode
+          ./.github/workflows/ci/setup-image-registry.sh
 
       - name: Setup Nginx Ingress Controller
         run: |-
@@ -64,4 +61,4 @@ jobs:
       - name: Run Tests
         run: |-
           cd tests/bats
-          export IMAGE_REGISTRY=ghcr.io/${{ github.repository_owner }} && export PUSH_TO_REGISTRY=true && export USE_OPENSHIFT=false && export BATS_LIBS_BASEDIR=../test-common && export_CLUSTER_CLIENT=kubectl && bats --timing --trace --verbose-run -r . 
+          export IMAGE_REGISTRY=localhost:5001 && export PUSH_TO_REGISTRY=true && export USE_OPENSHIFT=false && export BATS_LIBS_BASEDIR=../test-common && export CLUSTER_CLIENT=kubectl && bats --timing --trace --verbose-run -r . 
