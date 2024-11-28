@@ -18,7 +18,10 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
       - name: Install Helm
         uses: azure/setup-helm@v4
         with:
