@@ -175,6 +175,8 @@ If the Helm chart is only used to build the application image, you can skip the 
 | ----- | ----------- | ------- | ---------------------- |
 | `deploy.annotations` | Map of `string` annotations that are applied to the deployment and its pod's `template` | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
 | `deploy.enabled` | Determines if deployment-related resources should be created. | `true` | Set this to `false` if you do not want to deploy an application image built by this chart. |
+| `deploy.argsOverride` | An `args` array to override the default arguments of the container's command. | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#changing-commands-and-arguments-that-are-run-in-a-container). |
+| `deploy.commandOverride` | A `command` array to override the default command of the container.  | -  | [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#changing-commands-and-arguments-that-are-run-in-a-container). |
 | `deploy.env` | Freeform `env` items | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).  These environment variables will be used when the application is _running_. If you need to specify environment variables when the application is built, use `build.env` instead. |
 | `deploy.envFrom` | Freeform `envFrom` items | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).  These environment variables will be used when the application is _running_. If you need to specify environment variables when the application is built, use `build.envFrom` instead. |
 | `deploy.extraContainers` | Freeform extra `containers` items | - | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates) |
@@ -205,3 +207,4 @@ If the Helm chart is only used to build the application image, you can skip the 
 
 NOTE: Configuring a `route` and an `ingress` are exclusive. If both are enabled and you are deploying on Openshift then a `route` will be created. If you are deploying on Kubernetes then an `ingress` will be created.
 
+The template provide also an `extraObjects`, which is a free-form set of additional Kubernetes manifests that will be deployed alongside with the Application. A typical example is to create a PVC that will be later mounted to the container as a single deployment unit.
