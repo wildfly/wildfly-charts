@@ -37,8 +37,7 @@ deploy:
       port: admin
   startupProbe:
     httpGet:
-      path: /health/live
+      path: /health/started
       port: admin
-    initialDelaySeconds: 5
-    failureThreshold: 36
-    periodSeconds: 5
+    initialDelaySeconds: 10
+    failureThreshold: 11

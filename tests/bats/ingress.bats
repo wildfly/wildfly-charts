@@ -31,7 +31,7 @@ EOF
     sleep 5    
     ${CLUSTER_CLIENT} wait deployment test-ingress --for condition=Available=True --timeout=90s
     ${CLUSTER_CLIENT} get ingress --namespace wildfly-charts -o json >&3
-    run curl -v --no-progress-meter http://${CLUSTER_ADDRESS}/HelloWorld
+    run curl -v --no-progress-meter http://${CLUSTER_ADDRESS}/helloworld/HelloWorld
     assert_output --partial  "200 OK"
     assert_output --partial  "Hello World"
 }
@@ -61,11 +61,11 @@ EOF
     ${CLUSTER_CLIENT} wait deployment test-ingress --for condition=Available=True --timeout=90s
     ${CLUSTER_CLIENT} get ingress --namespace wildfly-charts -o json >&3
     # test with HTTPS
-    run curl -v -k --no-progress-meter https://${CLUSTER_ADDRESS}/HelloWorld
+    run curl -v -k --no-progress-meter https://${CLUSTER_ADDRESS}/helloworld/HelloWorld
     assert_output --partial  "*  subject: CN=wildfly.local"
     assert_output --partial  "Hello World"
     # verify that HTTP is redirected to HTTPS
-    run curl -v --no-progress-meter http://${CLUSTER_ADDRESS}/HelloWorld
+    run curl -v --no-progress-meter http://${CLUSTER_ADDRESS}/helloworld/HelloWorld
     if [[ -n "${USE_OPENSHIFT}" && ${USE_OPENSHIFT} = "true" ]]
     then
       assert_output --partial "302 Found"
