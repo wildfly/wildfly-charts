@@ -593,6 +593,38 @@
                     }
                   }
                 },
+                "commandOverride": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Override the default command for the WildFly container."
+                },
+                "argsOverride": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Override the default args for the WildFly container."
+                },
+                "securityContext": {
+                  "description": "Security options the pod should run with.",
+                  "type": "object",
+                  "properties": {
+                    "runAsUser": {
+                      "description": "The UID to run the entrypoint of the container process.",
+                      "type": "integer"
+                    },
+                    "runAsNonRoot": {
+                      "description": "Indicates that the container must run as a non-root user.",
+                      "type": "boolean"
+                    },
+                    "fsGroup": {
+                      "description": "A special supplemental group that applies to all containers in a Pod.",
+                      "type": "integer"
+                    }
+                  }
+                },
                 "livenessProbe": {
                     "description": "Freeform livenessProbe configuration"
                 },
@@ -659,6 +691,15 @@
                   }
                 }
             }
+        },
+        "extraObjects": {
+          "type": "array",
+          "description": "Defines additional Kubernetes resources to be created.",
+          "items": {
+            "type": "object",
+            "description": "A generic Kubernetes resource definition.",
+            "additionalProperties": true
+          }
         }
     }
 }
