@@ -1,25 +1,45 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+#Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+.flattened-pom.xml
 
-# Test binary, built with `go test -c`
-*.test
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# NetBeans
+nb-configuration.xml
 
-#OS X stuff
+# Visual Studio Code
+.vscode
+.factorypath
+
+# OSX
 .DS_Store
 
-# Ignore generated Chart files
-Chart.lock
-charts/*/charts
+# Vim
+*.swp
+*.swo
 
-_site
-.jekyll-cache
+# patch
+*.orig
+*.rej
+
+# Local environment
+.env
+
+# Plugin directory
+/.quarkus/cli/plugins/
+# TLS Certificates
+.certs/
