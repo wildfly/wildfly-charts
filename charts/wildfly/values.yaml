@@ -25,6 +25,7 @@ deploy:
       insecureEdgeTerminationPolicy: Redirect
   ingress:
     enabled: false
+    className: haproxy
     path: /
     pathType: Prefix
   livenessProbe:
