@@ -23,3 +23,7 @@ wildfly/wildfly       	2.0.3        	           	    Build and Deploy WildFly ap
 
 * A complete documentation of the `wildfly` Chart is available in [charts/wildfly/](./charts/wildfly/README.md).
 * [Wiki](https://github.com/wildfly/wildfly-charts/wiki)
+
+## Release Procedure
+
+The procedure to release the Helm Charts is described in [Release wiki page](https://github.com/wildfly/wildfly-charts/wiki/Release)
