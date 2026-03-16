@@ -228,7 +228,7 @@ If the Helm chart is only used to build the application image, you can skip the 
 | `deploy.readinessProbe` | Freeform `readinessProbe` field. | HTTP Get on `<ip>:admin/health/ready` | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
 | `deploy.replicas` | Number of pod replicas to deploy. | `1` | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#replicas) |
 | `deploy.resources` | Freeform `resources` items | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
-| `deploy.securityContext` | Freeform security context for the pod. | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
+| `deploy.securityContext` | Freeform security context for the container. | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | `deploy.route` | Configuration specific to the creation of a `Route` resource to expose the application | - | - |
 | `deploy.route.enabled` | Determines if a `Route` should be created | `true` | Allows clients outside of OpenShift to access your application |
 | `deploy.route.host` | `host` is an alias/DNS that points to the service. Optional. If not specified a route name will typically be automatically chosen | - | [OKD Documentation](https://docs.okd.io/latest/networking/routes/route-configuration.html) |
@@ -242,4 +242,10 @@ If the Helm chart is only used to build the application image, you can skip the 
 
 NOTE: Configuring a `route` and an `ingress` are exclusive. If both are enabled and you are deploying on Openshift then a `route` will be created. If you are deploying on Kubernetes then an `ingress` will be created.
 
-The template provide also an `extraObjects`, which is a free-form set of additional Kubernetes manifests that will be deployed alongside with the Application. A typical example is to create a PVC that will be later mounted to the container as a single deployment unit.
+The chart also provides `extraObjects`, which is a free-form set of additional Kubernetes manifests that will be deployed alongside the application. A typical example is to create a PVC that will be later mounted to the container as a single deployment unit.
+
+### Extra Objects
+
+| Value | Description | Default | Additional Information |
+| ----- | ----------- | ------- | ---------------------- |
+| `extraObjects` | Defines additional Kubernetes resources required to deploy WildFly (e.g. PVC, secrets, configmaps). | `[]` | Each item is a complete Kubernetes resource definition that will be deployed alongside the application. |

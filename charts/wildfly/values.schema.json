@@ -608,7 +608,7 @@
                   "description": "Override the default args for the WildFly container."
                 },
                 "securityContext": {
-                  "description": "Freeform security context for the pod. More information: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
+                  "description": "Freeform security context for the container. More information: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
                 },
                 "livenessProbe": {
                     "description": "Freeform livenessProbe configuration"
