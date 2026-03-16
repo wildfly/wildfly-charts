@@ -608,22 +608,7 @@
                   "description": "Override the default args for the WildFly container."
                 },
                 "securityContext": {
-                  "description": "Security options the pod should run with.",
-                  "type": "object",
-                  "properties": {
-                    "runAsUser": {
-                      "description": "The UID to run the entrypoint of the container process.",
-                      "type": "integer"
-                    },
-                    "runAsNonRoot": {
-                      "description": "Indicates that the container must run as a non-root user.",
-                      "type": "boolean"
-                    },
-                    "fsGroup": {
-                      "description": "A special supplemental group that applies to all containers in a Pod.",
-                      "type": "integer"
-                    }
-                  }
+                  "description": "Freeform security context for the pod. More information: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
                 },
                 "livenessProbe": {
                     "description": "Freeform livenessProbe configuration"
@@ -694,10 +679,10 @@
         },
         "extraObjects": {
           "type": "array",
-          "description": "Defines additional Kubernetes resources to be created.",
+          "description": "Defines additional Kubernetes resources required to deploy WildFly (e.g. PVC, secrets, configmaps).",
           "items": {
             "type": "object",
-            "description": "A generic Kubernetes resource definition.",
+            "description": "A Kubernetes resource definition required for the WildFly deployment.",
             "additionalProperties": true
           }
         }

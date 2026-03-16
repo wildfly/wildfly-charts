@@ -69,6 +69,40 @@ build:
   enabled: false
 ```
 
+## Using a Pre-built WildFly Image
+
+You can deploy the official [WildFly container image](https://quay.io/repository/wildfly/wildfly) directly, without building from source. Use `deploy.commandOverride` and `deploy.argsOverride` to customize how the WildFly server starts.
+
+For example, to expose the management interface on all network interfaces:
+
+```yaml
+image:
+  name: quay.io/wildfly/wildfly
+  tag: latest
+build:
+  enabled: false
+deploy:
+  argsOverride:
+    - "/opt/jboss/wildfly/bin/standalone.sh"
+    - "-b"
+    - "0.0.0.0"
+    - "-bmanagement"
+    - "0.0.0.0"
+  route:
+    enabled: false
+```
+
+You can also override the container command entirely:
+
+```yaml
+deploy:
+  commandOverride:
+    - "/bin/sh"
+    - "-c"
+  argsOverride:
+    - "/opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
+```
+
 ## Working With Private Image Registries
 
 If you are using private image registries to build, push or pull the application image, you need first to create secrets that will allow the container platform where the Helm Chart is deployed to authenticate against the private image registries.
@@ -192,8 +226,9 @@ If the Helm chart is only used to build the application image, you can skip the 
 | `deploy.labels` | Map of `string` labels that are applied to the deployment and its pod's `template` | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) |
 | `deploy.livenessProbe` | Freeform `livenessProbe` field. | HTTP Get on `<ip>:admin/health/live` | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
 | `deploy.readinessProbe` | Freeform `readinessProbe` field. | HTTP Get on `<ip>:admin/health/ready` | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
-| `deploy.replicas` | Number of pod replicas to deploy. | `1` | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#replicas) | 
+| `deploy.replicas` | Number of pod replicas to deploy. | `1` | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#replicas) |
 | `deploy.resources` | Freeform `resources` items | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
+| `deploy.securityContext` | Freeform security context for the pod. | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | `deploy.route` | Configuration specific to the creation of a `Route` resource to expose the application | - | - |
 | `deploy.route.enabled` | Determines if a `Route` should be created | `true` | Allows clients outside of OpenShift to access your application |
 | `deploy.route.host` | `host` is an alias/DNS that points to the service. Optional. If not specified a route name will typically be automatically chosen | - | [OKD Documentation](https://docs.okd.io/latest/networking/routes/route-configuration.html) |
