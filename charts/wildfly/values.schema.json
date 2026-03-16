@@ -593,6 +593,23 @@
                     }
                   }
                 },
+                "commandOverride": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Override the default command for the WildFly container."
+                },
+                "argsOverride": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Override the default args for the WildFly container."
+                },
+                "securityContext": {
+                  "description": "Freeform security context for the container. More information: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
+                },
                 "livenessProbe": {
                     "description": "Freeform livenessProbe configuration"
                 },
@@ -659,6 +676,15 @@
                   }
                 }
             }
+        },
+        "extraObjects": {
+          "type": "array",
+          "description": "Defines additional Kubernetes resources required to deploy WildFly (e.g. PVC, secrets, configmaps).",
+          "items": {
+            "type": "object",
+            "description": "A Kubernetes resource definition required for the WildFly deployment.",
+            "additionalProperties": true
+          }
         }
     }
 }

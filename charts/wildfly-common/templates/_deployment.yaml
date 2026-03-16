@@ -50,6 +50,15 @@ spec:
       containers:
         - name: {{ include "wildfly-common.appName" . }}
           image: {{ include "wildfly-common.appImage" . }}
+          {{- if .Values.deploy.argsOverride }}
+          args: {{- toYaml .Values.deploy.argsOverride | nindent 12 }}
+          {{- end }}
+          {{- if .Values.deploy.commandOverride }}
+          command: {{- toYaml .Values.deploy.commandOverride | nindent 12 }}
+          {{- end }}
+          {{- if .Values.deploy.securityContext }}
+          securityContext: {{- toYaml .Values.deploy.securityContext | nindent 12 }}
+          {{- end }}
           imagePullPolicy: Always
           ports:
           - name: jolokia

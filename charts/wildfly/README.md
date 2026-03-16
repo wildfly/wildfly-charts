@@ -69,6 +69,40 @@ build:
   enabled: false
 ```
 
+## Using a Pre-built WildFly Image
+
+You can deploy the official [WildFly container image](https://quay.io/repository/wildfly/wildfly) directly, without building from source. Use `deploy.commandOverride` and `deploy.argsOverride` to customize how the WildFly server starts.
+
+For example, to expose the management interface on all network interfaces:
+
+```yaml
+image:
+  name: quay.io/wildfly/wildfly
+  tag: latest
+build:
+  enabled: false
+deploy:
+  argsOverride:
+    - "/opt/jboss/wildfly/bin/standalone.sh"
+    - "-b"
+    - "0.0.0.0"
+    - "-bmanagement"
+    - "0.0.0.0"
+  route:
+    enabled: false
+```
+
+You can also override the container command entirely:
+
+```yaml
+deploy:
+  commandOverride:
+    - "/bin/sh"
+    - "-c"
+  argsOverride:
+    - "/opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0"
+```
+
 ## Working With Private Image Registries
 
 If you are using private image registries to build, push or pull the application image, you need first to create secrets that will allow the container platform where the Helm Chart is deployed to authenticate against the private image registries.
@@ -175,6 +209,8 @@ If the Helm chart is only used to build the application image, you can skip the 
 | ----- | ----------- | ------- | ---------------------- |
 | `deploy.annotations` | Map of `string` annotations that are applied to the deployment and its pod's `template` | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) |
 | `deploy.enabled` | Determines if deployment-related resources should be created. | `true` | Set this to `false` if you do not want to deploy an application image built by this chart. |
+| `deploy.argsOverride` | An `args` array to override the default arguments of the container's command. | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#changing-commands-and-arguments-that-are-run-in-a-container). |
+| `deploy.commandOverride` | A `command` array to override the default command of the container.  | -  | [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#changing-commands-and-arguments-that-are-run-in-a-container). |
 | `deploy.env` | Freeform `env` items | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).  These environment variables will be used when the application is _running_. If you need to specify environment variables when the application is built, use `build.env` instead. |
 | `deploy.envFrom` | Freeform `envFrom` items | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).  These environment variables will be used when the application is _running_. If you need to specify environment variables when the application is built, use `build.envFrom` instead. |
 | `deploy.extraContainers` | Freeform extra `containers` items | - | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/pods/#pod-templates) |
@@ -190,8 +226,9 @@ If the Helm chart is only used to build the application image, you can skip the 
 | `deploy.labels` | Map of `string` labels that are applied to the deployment and its pod's `template` | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) |
 | `deploy.livenessProbe` | Freeform `livenessProbe` field. | HTTP Get on `<ip>:admin/health/live` | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
 | `deploy.readinessProbe` | Freeform `readinessProbe` field. | HTTP Get on `<ip>:admin/health/ready` | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) |
-| `deploy.replicas` | Number of pod replicas to deploy. | `1` | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#replicas) | 
+| `deploy.replicas` | Number of pod replicas to deploy. | `1` | [Kubernetes Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#replicas) |
 | `deploy.resources` | Freeform `resources` items | - | [Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) |
+| `deploy.securityContext` | Freeform security context for the container. | - | [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) |
 | `deploy.route` | Configuration specific to the creation of a `Route` resource to expose the application | - | - |
 | `deploy.route.enabled` | Determines if a `Route` should be created | `true` | Allows clients outside of OpenShift to access your application |
 | `deploy.route.host` | `host` is an alias/DNS that points to the service. Optional. If not specified a route name will typically be automatically chosen | - | [OKD Documentation](https://docs.okd.io/latest/networking/routes/route-configuration.html) |
@@ -205,3 +242,10 @@ If the Helm chart is only used to build the application image, you can skip the 
 
 NOTE: Configuring a `route` and an `ingress` are exclusive. If both are enabled and you are deploying on Openshift then a `route` will be created. If you are deploying on Kubernetes then an `ingress` will be created.
 
+The chart also provides `extraObjects`, which is a free-form set of additional Kubernetes manifests that will be deployed alongside the application. A typical example is to create a PVC that will be later mounted to the container as a single deployment unit.
+
+### Extra Objects
+
+| Value | Description | Default | Additional Information |
+| ----- | ----------- | ------- | ---------------------- |
+| `extraObjects` | Defines additional Kubernetes resources required to deploy WildFly (e.g. PVC, secrets, configmaps). | `[]` | Each item is a complete Kubernetes resource definition that will be deployed alongside the application. |
